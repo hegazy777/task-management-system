@@ -11,6 +11,13 @@ import { useContext } from "react";
 import { AuthContext } from "../../../contexts/AuthContext";
 
 import { AxiosError } from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faEnvelope,
+  faLock,
+  faEye,
+  faEyeSlash,
+} from "@fortawesome/free-solid-svg-icons";
 
 type Data = { email: string; password: string };
 
@@ -54,7 +61,7 @@ export default function Login() {
         <div className="input-group mb-3">
           <div className="input-group-prepend ">
             <span className="input-group-text">
-              <i className="fa fa-envelope"></i>
+              <FontAwesomeIcon icon={faEnvelope} />
             </span>
           </div>
           <input
@@ -73,7 +80,7 @@ export default function Login() {
         <div className="input-group mb-3">
           <div className="input-group-prepend">
             <span className="input-group-text">
-              <i className="fa fa-lock"></i>
+              <FontAwesomeIcon icon={faLock} />
             </span>
           </div>
 
@@ -92,7 +99,7 @@ export default function Login() {
                 setToggle(!toggle);
               }}
             >
-              <i className={`fa ${toggle ? "fa-eye-slash" : "fa-eye"}`}></i>
+              <FontAwesomeIcon icon={toggle ? faEyeSlash : faEye} />
             </span>
           </div>
         </div>
