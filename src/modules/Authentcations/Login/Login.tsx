@@ -10,6 +10,8 @@ import { users_endpoints } from "../../../services/api/apiConfig";
 import { useContext } from "react";
 import { AuthContext } from "../../../contexts/AuthContext";
 
+import { AxiosError } from "axios";
+
 type Data = { email: string; password: string };
 
 export default function Login() {
@@ -32,7 +34,6 @@ export default function Login() {
     try {
       const response = await apiInstance.post(users_endpoints.LOGIN, data);
       localStorage.setItem("token", response.data.token);
-      console.log(response.data.token);
 
       setToken(response?.data?.token);
       navigate("/dashboard");
@@ -40,7 +41,8 @@ export default function Login() {
         theme: "light",
       });
     } catch (error) {
-      console.log(error);
+      const axiosError = error as AxiosError<{ message?: string }>;
+      toast.error(axiosError?.response?.data?.message);
     }
   };
   return (
