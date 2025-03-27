@@ -1,7 +1,7 @@
-import React from 'react'
+import React from "react";
 
-export default function ChangePass() {
-  return (
-    <div>ChangePass</div>
-  )
-}
+const ChangePass: React.FC = () => {
+  return <div>ChangePass</div>;
+};
+
+export default ChangePass;
