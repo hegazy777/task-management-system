@@ -1,12 +1,13 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
-import Button from 'react-bootstrap/Button';
+import React from "react";
+import { Outlet } from "react-router-dom";
+import { Container } from "react-bootstrap";
 
 export default function AuthLayout() {
   return (
-    <>
-  
-        <Outlet/>
-    </>
-  )
+    <div className="auth-container">
+      <Container fluid className="">
+        <Outlet />
+      </Container>
+    </div>
+  );
 }
