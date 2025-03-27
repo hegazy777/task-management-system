@@ -1,7 +1,5 @@
-import React from 'react'
-
 export default function ForgetPass() {
   return (
-    <div>ForgetPass</div>
+    <h1>ForgetPass</h1>
   )
 }
