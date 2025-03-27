@@ -1,6 +1,6 @@
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import AuthLayout from "./modules/Shard/AuthLayout/AuthLayout";
+import AuthLayout from "./modules/Shared/AuthLayout/AuthLayout";
 import ForgetPass from "./modules/Authentcations/ForgetPass/ForgetPass";
 import ChangePass from "./modules/Authentcations/ChangePass/ChangePass";
 import VerifyAccount from "./modules/Authentcations/VerifyAccount/VerifyAccount";
