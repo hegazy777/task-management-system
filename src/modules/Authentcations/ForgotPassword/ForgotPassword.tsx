@@ -29,7 +29,7 @@ export default function ForgotPassword() {
         users_endpoints.RESET_REQUEST,
         data
       );
-      navigate("/reset", { state: { email: data.email } });
+      navigate("/reset-password", { state: { email: data.email } });
 
       toast.success(response.data.message);
     } catch (error) {
