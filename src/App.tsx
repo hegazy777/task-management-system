@@ -24,10 +24,10 @@ function App() {
         { path: "login", element: <Login /> },
         { path: "register", element: <Register /> },
         { path: "change-password", element: <ChangePassword /> },
-        { path: "reset-password", element: <ResetPassword /> },
         { path: "verify-account", element: <VerifyAccount /> },
       ],
     },
+    { path: "reset-password", element: <ResetPassword /> },
     { path: "forgot-password", element: <ForgetPassword /> },
 
     {
