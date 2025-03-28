@@ -101,7 +101,7 @@ export default function Login() {
           <Link className="text-white" to="/register">
             Register?
           </Link>
-          <Link className="text-white" to="/forget">
+          <Link className="text-white" to="/forget-password">
             Forget Password?
           </Link>
         </div>

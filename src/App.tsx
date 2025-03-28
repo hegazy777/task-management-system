@@ -19,16 +19,18 @@ function App() {
     {
       path: "",
       element: <AuthLayout />,
+      errorElement: <NotFound />,
+
       children: [
         { index: true, element: <Login /> },
         { path: "login", element: <Login /> },
         { path: "register", element: <Register /> },
         { path: "change-password", element: <ChangePassword /> },
         { path: "verify-account", element: <VerifyAccount /> },
+        { path: "reset-password", element: <ResetPassword /> },
+        { path: "forget-password", element: <ForgetPassword /> },
       ],
     },
-    { path: "reset-password", element: <ResetPassword /> },
-    { path: "forgot-password", element: <ForgetPassword /> },
 
     {
       path: "dashboard",
