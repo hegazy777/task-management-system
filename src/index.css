@@ -21,27 +21,26 @@ body {
   align-items: center;
   text-align: center;
 }
-.input-group-prepend .input-group-text {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+.input-group-append {
+  position: absolute;
+  right: 0;
+  top: 2px;
 }
-.input-group-append .input-group-text {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
+
 .input-group-text {
-  background-color: white !important;
+  background-color: transparent !important;
   width: 100%;
   height: 100%;
+  border: 0 !important;
 }
 
 .input-group-text i {
-  width: 16px !important;
-  height: 16px !important;
+  width: 20px !important;
+  height: 20px !important;
 }
 
-
-input:active, input:focus {
+input:active,
+input:focus {
   outline: none !important;
   box-shadow: none !important;
   /* border: none !important; */
@@ -54,11 +53,10 @@ input {
 }
 
 .authForm label {
-  color: #EF9B28;
+  color: #ef9b28;
   font-size: 14px;
   font-weight: 500;
 }
-
 
 .authForm input {
   background-color: transparent;
@@ -74,4 +72,21 @@ input {
   color: #fff;
   font-size: 16px;
   letter-spacing: 1px;
+}
+
+.auth {
+  background-image: url("../src/assets/loginbg.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100% 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-content {
+  width: 100%;
+  background-color: rgba(49, 89, 81, 0.9);
+  border-radius: 16px;
 }
