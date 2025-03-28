@@ -65,6 +65,7 @@ export default function ResetPassword() {
             placeholder="Enter your E-mail"
             aria-label="email"
             aria-describedby="basic-addon1"
+            disabled={disabled}
           />
         </div>
         {errors.email && (
@@ -78,7 +79,6 @@ export default function ResetPassword() {
             id="seed"
             placeholder="Enter Verification"
             aria-label="seed"
-            disabled={disabled}
             aria-describedby="basic-addon2"
           />
         </div>
@@ -90,7 +90,7 @@ export default function ResetPassword() {
           <label htmlFor="email">New Password</label>
           <input
             {...register("password")}
-            type="password"
+            type={toggle ? "text" : "password"}
             id="password"
             placeholder="Enter your New Password"
             aria-label="password"
@@ -115,7 +115,7 @@ export default function ResetPassword() {
           <label htmlFor="confirmPassword">Confirm Password</label>
           <input
             {...register("confirmPassword")}
-            type="password"
+            type={toggleConfirm ? "text" : "password"}
             id="confirmPassword"
             placeholder="Confirm New Password"
             aria-label="confirmPassword"
