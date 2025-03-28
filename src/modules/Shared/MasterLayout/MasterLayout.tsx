@@ -1,10 +1,9 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
 import { Container } from "react-bootstrap";
+import { Outlet } from "react-router-dom";
 
-export default function AuthLayout() {
+export default function MasterLayer() {
   return (
-    <div className="auth-container">
+    <div className="master-container">
       <Container fluid className="">
         <Outlet />
       </Container>
