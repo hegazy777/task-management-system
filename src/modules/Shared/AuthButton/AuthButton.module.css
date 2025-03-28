@@ -1,0 +1,12 @@
+
+.authBtn {
+    background-color: #EF9B28;
+    color: #fff;
+    border-radius: 90px;
+    font-size: 16px;
+    font-weight: 500;
+    width: 100%;
+    border: none;
+    padding: 10px 0px;
+    margin-top: 15px;
+}

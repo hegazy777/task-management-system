@@ -10,9 +10,9 @@ export default function AuthLayer() {
   }
 
   return (
-    <div className="auth-container">
+    <div className="auth-containe">
       <Container fluid className="">
-        <div className="container-fluid w-50 bg-white rounded col-md-5 px-5 py-3">
+        <div className="container-fluid w-50 bg-whit rounded col-md-5 px-5 py-3">
           <Outlet />
         </div>
       </Container>
