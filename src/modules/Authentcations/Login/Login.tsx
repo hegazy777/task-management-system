@@ -12,12 +12,9 @@ import { AuthContext } from "../../../contexts/AuthContext";
 
 import { AxiosError } from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faEnvelope,
-  faLock,
-  faEye,
-  faEyeSlash,
-} from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import AuthTitle from "../../Shared/AuthTitle/AuthTitle";
+import AuthButton from "../../Shared/AuthButton/AuthButton";
 
 type Data = { email: string; password: string };
 
@@ -53,21 +50,19 @@ export default function Login() {
     }
   };
   return (
-    <div className="w-100">
-      <h3 className="h5">Log In</h3>
-      <p className="text-muted">Welcome Back! Please enter your details</p>
+    <div className="auth-content p-5">
+      <AuthTitle title={"Login"} />
 
-      <form className="" role="form" onSubmit={handleSubmit(onSubmit)}>
-        <div className="input-group mb-3">
-          <div className="input-group-prepend ">
-            <span className="input-group-text">
-              <FontAwesomeIcon icon={faEnvelope} />
-            </span>
-          </div>
+      <form
+        className="authForm px-4 mt-4"
+        role="form"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <div className="input-group mb-1">
           <input
             {...register("email")}
             type="text"
-            className="form-control"
+            // className="form-control"
             placeholder="Enter your E-mail"
             aria-label="Email"
             aria-describedby="basic-addon1"
@@ -77,24 +72,18 @@ export default function Login() {
           <div className="pb-3 text-danger">{errors.email.message}</div>
         )}
 
-        <div className="input-group mb-3">
-          <div className="input-group-prepend">
-            <span className="input-group-text">
-              <FontAwesomeIcon icon={faLock} />
-            </span>
-          </div>
-
+        <div className="input-group mb-1">
           <input
             {...register("password")}
             type={toggle ? "text" : "password"}
-            className="form-control"
+            // className="form-control"
             placeholder="Password"
             aria-label="Password"
             aria-describedby="basic-addon1"
           />
           <div className="input-group-append">
             <span
-              className="input-group-text showpass"
+              className="input-group-text"
               onClick={() => {
                 setToggle(!toggle);
               }}
@@ -109,26 +98,14 @@ export default function Login() {
         )}
 
         <div className="links d-flex justify-content-between my-3">
-          <Link className="text-black" to="/register">
+          <Link className="text-white" to="/register">
             Register?
           </Link>
-          <Link className="text-success" to="/forgot-password">
+          <Link className="text-white" to="/forget">
             Forget Password?
           </Link>
         </div>
-        <button
-          type="submit"
-          className="btn btn-success w-100"
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? (
-            <div className="spinner-border" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
-          ) : (
-            "Login"
-          )}
-        </button>
+        <AuthButton title="Login" isSubmitting={isSubmitting} />
       </form>
     </div>
   );
