@@ -16,7 +16,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import AuthTitle from "../../Shared/AuthTitle/AuthTitle";
 import AuthButton from "../../Shared/AuthButton/AuthButton";
 
-type Data = { email: string; password: string };
+type DataType = { email: string; password: string };
 
 export default function Login() {
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ export default function Login() {
 
   const [toggle, setToggle] = useState(false);
 
-  const onSubmit = async (data: Data) => {
+  const onSubmit = async (data: DataType) => {
     try {
       const response = await apiInstance.post(users_endpoints.LOGIN, data);
       localStorage.setItem("token", response.data.token);
