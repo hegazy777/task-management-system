@@ -44,7 +44,7 @@ export default function ResetPassword() {
   const onSubmit = async (data: DataType) => {
     try {
       const response = await apiInstance.post(users_endpoints.RESET, data);
-      navigate("/");
+      navigate("/change-password");
 
       toast.success(response.data.message);
     } catch (error) {

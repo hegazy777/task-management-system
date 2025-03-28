@@ -1,4 +1,4 @@
-export const baseURL = "https://upskilling-egypt.com:3003/api/v1/";
+export const baseURL = "https://upskilling-egypt.com:3003/api/v1";
 export const imageURL = "https://upskilling-egypt.com:3003/";
 
 export const users_endpoints = {

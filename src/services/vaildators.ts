@@ -65,11 +65,11 @@ export const registerSehemaValidation = Yup.object().shape({
 });
 
 export const changePasswordSehemaValidation = Yup.object().shape({
-  oldPassword: Yup.string()
-    .required("Old password is required")
-    .min(8, "Old password length is already set to be at least 8 characters"),
-  newPassword: newPassword,
-  confirmNewPassword: confirmNewPassword,
+  oldPassword: Yup.string().required("Old password is required"),
+  newPassword: Yup.string().required("New password is required"),
+  confirmNewPassword: Yup.string()
+    .oneOf([Yup.ref("newPassword"), undefined], "Passwords must match")
+    .required("Confirm new password is required"),
 });
 
 // export const categoryDataSehemaValidation = Yup.object().shape({
