@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import AuthButton from "../../Shared/AuthButton/AuthButton";
 // import AuthLogo from "../../Shared/AuthLogo/AuthLogo";
 import AuthTitle from "../../Shared/AuthTitle/AuthTitle";
@@ -21,14 +21,21 @@ type DataType = {
   seed: string;
 };
 export default function ResetPassword() {
+  const { state } = useLocation();
+
   const {
     register,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, defaultValues },
     handleSubmit,
   } = useForm({
     mode: "onChange",
+    defaultValues: { email: state?.email },
+
     resolver: yupResolver(resetSehemaValidation),
   });
+
+  const disabled = defaultValues?.email ? true : false;
+
   const navigate = useNavigate();
 
   const [toggle, setToggle] = useState(false);
@@ -66,18 +73,12 @@ export default function ResetPassword() {
         <div className="input-group mb-1">
           <label htmlFor="email">OTP Verification</label>
           <input
-            {...register("seed", {
-              required: "Otp is required",
-              pattern: {
-                value: /^[A-Za-z0-9]{4,8}$/,
-                message:
-                  "OTP must be 4 to 8 characters long and contain only letters and numbers.",
-              },
-            })}
+            {...register("seed")}
             type="text"
             id="seed"
             placeholder="Enter Verification"
             aria-label="seed"
+            disabled={disabled}
             aria-describedby="basic-addon2"
           />
         </div>
