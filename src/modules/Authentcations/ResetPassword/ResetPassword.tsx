@@ -1,54 +1,52 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import AuthButton from "../../Shared/AuthButton/AuthButton";
-import AuthLogo from "../../Shared/AuthLogo/AuthLogo";
+// import AuthLogo from "../../Shared/AuthLogo/AuthLogo";
 import AuthTitle from "../../Shared/AuthTitle/AuthTitle";
-import styles from "./ResetPassword.module.css";
+// import styles from "./ResetPassword.module.css";
 import { useForm } from "react-hook-form";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { toast } from "react-toastify";
+import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { apiInstance } from "../../../services/api/apiInstance";
+import { users_endpoints } from "../../../services/api/apiConfig";
+import { resetSehemaValidation } from "../../../services/vaildators";
+import { yupResolver } from "@hookform/resolvers/yup";
 
+type DataType = {
+  email: string;
+  password: string;
+  confirmPassword: string;
+  seed: string;
+};
 export default function ResetPassword() {
-  const showPass = () => {
-    const passwordInput = document.getElementById(
-      "password"
-    ) as HTMLInputElement;
-    if (passwordInput?.type === "password") {
-      passwordInput.type = "text";
-    } else {
-      passwordInput.type = "password";
-    }
-  };
+  const { state } = useLocation();
 
-  const showConfPass = () => {
-    const confirmPassInput = document.getElementById(
-      "confirmPassword"
-    ) as HTMLInputElement;
-    if (confirmPassInput?.type === "password") {
-      confirmPassInput.type = "text";
-    } else {
-      confirmPassInput.type = "password";
-    }
-  };
-
-  let {
+  const {
     register,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, defaultValues },
     handleSubmit,
-  } = useForm();
-  let navigate = useNavigate();
+  } = useForm({
+    mode: "onChange",
+    defaultValues: { email: state?.email },
 
-  const onSubmit = async (data: any) => {
+    resolver: yupResolver(resetSehemaValidation),
+  });
+
+  const disabled = defaultValues?.email ? true : false;
+
+  const navigate = useNavigate();
+
+  const [toggle, setToggle] = useState(false);
+  const [toggleConfirm, setToggleConfirm] = useState(false);
+
+  const onSubmit = async (data: DataType) => {
     try {
-      let response = await axios.post(
-        "https://upskilling-egypt.com:3003/api/v1/Users/Reset",
-        data
-      );
-      console.log(response);
+      const response = await apiInstance.post(users_endpoints.RESET, data);
+      navigate("/");
 
-      navigate("/reset-password");
-      toast.success("Otp sent successfully", {
-        theme: "light",
-      });
+      toast.success(response.data.message);
     } catch (error) {
       const axiosError = error as AxiosError<{ message?: string }>;
       toast.error(axiosError?.response?.data?.message);
@@ -56,108 +54,93 @@ export default function ResetPassword() {
   };
 
   return (
-    <>
-      <div className="auth-content p-5">
-        <AuthTitle title={"Reset Password"} />
-        <form onSubmit={handleSubmit(onSubmit)} className="authForm px-4 mt-4">
-          <div className="input-group mb-1">
-            <label htmlFor="email">E-mail</label>
-            <input
-              {...register("email", {
-                required: "Email is required",
-                pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                  message: "Please enter a valid email address.",
-                },
-              })}
-              type="email"
-              placeholder="Enter your E-mail"
-              aria-label="email"
-              aria-describedby="basic-addon1"
-            />
-          </div>
+    <div className="auth-content p-5">
+      <AuthTitle title={"Reset Password"} />
+      <form onSubmit={handleSubmit(onSubmit)} className="authForm px-4 mt-4">
+        <div className="input-group mb-1">
+          <label htmlFor="email">E-mail</label>
+          <input
+            {...register("email")}
+            type="email"
+            placeholder="Enter your E-mail"
+            aria-label="email"
+            aria-describedby="basic-addon1"
+            disabled={disabled}
+          />
+        </div>
+        {errors.email && (
+          <div className="pb-3 text-danger">{errors.email.message}</div>
+        )}
+        <div className="input-group mb-1">
+          <label htmlFor="email">OTP Verification</label>
+          <input
+            {...register("seed")}
+            type="text"
+            id="seed"
+            placeholder="Enter Verification"
+            aria-label="seed"
+            aria-describedby="basic-addon2"
+          />
+        </div>
+        {errors.seed && (
+          <div className="pb-3 text-danger">{errors.seed.message}</div>
+        )}
 
-          {errors.email && (
-            <span className="bg-danger px-2 rounded-2 my-2 text-white mb-1">
-              {String(errors.email.message)}
+        <div className="input-group mb-1">
+          <label htmlFor="email">New Password</label>
+          <input
+            {...register("password")}
+            type={toggle ? "text" : "password"}
+            id="password"
+            placeholder="Enter your New Password"
+            aria-label="password"
+            aria-describedby="basic-addon2"
+          />
+          <div className="input-group-append">
+            <span
+              className="input-group-text"
+              onClick={() => {
+                setToggle(!toggle);
+              }}
+            >
+              <FontAwesomeIcon icon={toggle ? faEyeSlash : faEye} />
             </span>
-          )}
-
-          <div className="input-group mb-1">
-            <label htmlFor="email">OTP Verification</label>
-            <input
-              {...register("seed", {
-                required: "Otp is required",
-                pattern: {
-                  value: /^[A-Za-z0-9]{4,8}$/,
-                  message:
-                    "OTP must be 4 to 8 characters long and contain only letters and numbers.",
-                },
-              })}
-              type="text"
-              id="seed"
-              placeholder="Enter Verification"
-              aria-label="seed"
-              aria-describedby="basic-addon2"
-            />
           </div>
-          {errors.seed && (
-            <span className="bg-danger px-2 rounded-2 my-2 text-white mb-1">
-              {String(errors.seed.message)}
-            </span>
-          )}
+        </div>
+        {errors.password && (
+          <div className="pb-3 text-danger">{errors.password.message}</div>
+        )}
 
-          <div className="input-group mb-1">
-            <label htmlFor="email">New Password</label>
-            <input
-              {...register("password", {
-                required: "Password is required",
-                pattern: {
-                  value: /^(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                  message:
-                    "Password must be at least 8 characters and include at least one number and one special character (@, #, $, etc.).",
-                },
-              })}
-              type="password"
-              id="password"
-              placeholder="Enter your New Password"
-              aria-label="password"
-              aria-describedby="basic-addon2"
-            />
+        <div className="input-group mb-1">
+          <label htmlFor="confirmPassword">Confirm Password</label>
+          <input
+            {...register("confirmPassword")}
+            type={toggleConfirm ? "text" : "password"}
+            id="confirmPassword"
+            placeholder="Confirm New Password"
+            aria-label="confirmPassword"
+            aria-describedby="basic-addon2"
+          />
+
+          <div className="input-group-append">
+            <span
+              className="input-group-text"
+              onClick={() => {
+                setToggleConfirm(!toggleConfirm);
+              }}
+            >
+              <FontAwesomeIcon icon={toggleConfirm ? faEyeSlash : faEye} />
+            </span>
           </div>
-          {errors.password && (
-            <span className="bg-danger px-2 rounded-2 my-2 text-white mb-1">
-              {String(errors.password.message)}
-            </span>
-          )}
-
-          <div className="input-group mb-1">
-            <label htmlFor="email">Confirm Password</label>
-            <input
-              {...register("confirmPassword", {
-                required: "Confirm password is required",
-                pattern: {
-                  value: /^(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                  message:
-                    "Passwords do not match. Please enter the same password.",
-                },
-              })}
-              type="password"
-              id="confirmPassword"
-              placeholder="Confirm New Password"
-              aria-label="confirmPassword"
-              aria-describedby="basic-addon2"
-            />
+        </div>
+        {errors.confirmPassword && (
+          <div className="pb-3 text-danger">
+            {errors.confirmPassword.message}
           </div>
-          {errors.confirmPassword && (
-            <span className="bg-danger px-2 rounded-2 my-2 text-white mb-1">
-              {String(errors.confirmPassword.message)}
-            </span>
-          )}
+        )}
 
-          <AuthButton title="Save" isSubmitting={isSubmitting} />
-        </form>
-      </div>
-    </>
+        <AuthButton title="Save" isSubmitting={isSubmitting} />
+      </form>
+    </div>
   );
 }

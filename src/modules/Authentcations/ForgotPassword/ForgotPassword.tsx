@@ -3,29 +3,35 @@ import AuthButton from "../../Shared/AuthButton/AuthButton";
 import AuthTitle from "../../Shared/AuthTitle/AuthTitle";
 // import styles from "./ForgotPassword.module.css";
 import { useNavigate } from "react-router-dom";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { toast } from "react-toastify";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { forgetSehemaValidation } from "../../../services/vaildators";
+import { apiInstance } from "../../../services/api/apiInstance";
+import { users_endpoints } from "../../../services/api/apiConfig";
+
+type DataType = { email: string };
 
 export default function ForgotPassword() {
-  let {
+  const {
     register,
     formState: { errors, isSubmitting },
     handleSubmit,
-  } = useForm();
-  let navigate = useNavigate();
+  } = useForm({
+    mode: "onChange",
+    resolver: yupResolver(forgetSehemaValidation),
+  });
+  const navigate = useNavigate();
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: DataType) => {
     try {
-      let response = await axios.post(
-        "https://upskilling-egypt.com:3003/api/v1/Users/Reset/Request",
+      const response = await apiInstance.post(
+        users_endpoints.RESET_REQUEST,
         data
       );
-      console.log(response);
+      navigate("/reset-password", { state: { email: data.email } });
 
-      navigate("/reset-password");
-      toast.success("Otp sent successfully", {
-        theme: "light",
-      });
+      toast.success(response.data.message);
     } catch (error) {
       const axiosError = error as AxiosError<{ message?: string }>;
       toast.error(axiosError?.response?.data?.message);
@@ -33,37 +39,26 @@ export default function ForgotPassword() {
   };
 
   return (
-    <>
-      <div className="auth-content p-5">
-        <AuthTitle title={"Forget Password"} />
+    <div className="auth-content p-5">
+      <AuthTitle title={"Forget Password"} />
 
-        <form onSubmit={handleSubmit(onSubmit)} className="authForm px-4 mt-4">
-          <div className="input-group mb-1">
-            <label htmlFor="email">E-mail</label>
-            <input
-              {...register("email", {
-                required: "Email is required",
-                pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                  message: "Please enter a valid email address.",
-                },
-              })}
-              type="email"
-              placeholder="Enter your E-mail"
-              aria-label="email"
-              aria-describedby="basic-addon1"
-            />
-          </div>
+      <form onSubmit={handleSubmit(onSubmit)} className="authForm px-4 mt-4">
+        <div className="input-group mb-1">
+          <label htmlFor="email">E-mail</label>
+          <input
+            {...register("email")}
+            type="email"
+            placeholder="Enter your E-mail"
+            aria-label="email"
+            aria-describedby="basic-addon1"
+          />
+        </div>
+        {errors.email && (
+          <div className="pb-3 text-danger">{errors.email.message}</div>
+        )}
 
-          {errors.email && (
-            <span className="bg-danger px-2 rounded-2 my-2 text-white">
-              {String(errors.email.message)}
-            </span>
-          )}
-
-          <AuthButton title="Verify" isSubmitting={isSubmitting} />
-        </form>
-      </div>
-    </>
+        <AuthButton title="Verify" isSubmitting={isSubmitting} />
+      </form>
+    </div>
   );
 }
