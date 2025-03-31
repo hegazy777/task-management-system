@@ -26,8 +26,10 @@ export default function ProjectsList() {
   const [projectsList, setProjectList] = useState<ProjectType[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
-  const [arrayOfPages, setArrayOfPages] = useState<number[]>([]);
+  const [totalNumberOfRecords, setTotalNumberOfRecords] = useState(0);
+  const [totalNumberOfPages, setTotalNumberOfPages] = useState(0);
 
   const [{ title }, setQuery] = useState({
     title: "",
@@ -49,12 +51,9 @@ export default function ProjectsList() {
         }
       );
 
-      setArrayOfPages(
-        Array.from(
-          { length: response?.data?.totalNumberOfPages },
-          (_, i) => i + 1
-        )
-      );
+      setTotalNumberOfPages(response.data.totalNumberOfPages);
+      setTotalNumberOfRecords(response.data.totalNumberOfRecords);
+      // console.log(response?.data);
       setProjectList(
         //map items to remove sensetive data that is coming with this api call
         response?.data?.data.map(
@@ -86,10 +85,10 @@ export default function ProjectsList() {
     }
   };
   useEffect(() => {
-    getAllProjects(10, currentPageNumber, title);
+    getAllProjects(pageSize, currentPageNumber, title);
 
     console.log(title);
-  }, [currentPageNumber, title]);
+  }, [currentPageNumber, title, pageSize]);
 
   // handle delete category logic
   // const deleteCategory = async (selectedId: number) => {
@@ -133,7 +132,7 @@ export default function ProjectsList() {
   };
 
   return (
-    <div>
+    <div className="h-100">
       <div className="title d-flex justify-content-between my-3">
         <div className="caption">
           <h3>Projects</h3>
@@ -260,9 +259,12 @@ export default function ProjectsList() {
       />
 */}
       <Pagination
-        arrayOfPages={arrayOfPages}
         currentPage={currentPageNumber}
         changeCurrentPage={setCurrentPageNumber}
+        totalNumberOfPages={totalNumberOfPages}
+        totalNumberOfRecords={totalNumberOfRecords}
+        pageSize={pageSize}
+        setPageSize={setPageSize}
       />
     </div>
   );
