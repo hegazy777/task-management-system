@@ -5,8 +5,8 @@ import { createContext, useEffect, useState, ReactNode } from "react";
 interface UserGroup {
   id: number;
   name: string;
-  creationDate: string; // ISO Date String
-  modificationDate: string; // ISO Date String
+  creationDate: string;
+  modificationDate: string;
 }
 
 interface User {
@@ -18,8 +18,8 @@ interface User {
   imagePath: string;
   isActivated: boolean;
   group: UserGroup;
-  creationDate: string; // ISO Date String
-  modificationDate: string; // ISO Date String
+  creationDate: string;
+  modificationDate: string;
 }
 
 export type AuthContextType = {
@@ -31,16 +31,12 @@ export type AuthContextType = {
   isAdmin: boolean;
 };
 
-export const AuthContext = createContext<AuthContextType>(
-  {} as AuthContextType
-);
+export const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 const useLocalStorage = (
   key: string
 ): [string | null, (newValue: string | null) => void] => {
-  const [value, setValue] = useState<string | null>(
-    localStorage.getItem(key) || null
-  );
+  const [value, setValue] = useState<string | null>(() => localStorage.getItem(key));
 
   useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
@@ -58,11 +54,11 @@ const useLocalStorage = (
 
   const setStoredValue = (newValue: string | null) => {
     if (newValue === null) {
-      localStorage.removeItem("token"); // Remove item if null
+      localStorage.removeItem(key);
     } else {
-      localStorage.setItem("token", newValue); // Update localStorage
+      localStorage.setItem(key, newValue);
     }
-    setValue(newValue); // Update state for same-tab updates
+    setValue(newValue);
   };
 
   return [value, setStoredValue];
@@ -71,35 +67,36 @@ const useLocalStorage = (
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useLocalStorage("token");
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const getUserData = async () => {
     try {
-      const response = await privateApiInstance.get(
-        users_endpoints.GET_USER
-
-        //     {
-        //     "access-control-allow-origin": "*",
-        //   }
-      );
-
+      const response = await privateApiInstance.get(users_endpoints.GET_USER);
       setUser(response.data);
     } catch (error) {
-      console.log(error);
+      console.log("❌ Error fetching user data:", error);
+      logout();
+    } finally {
+      setLoading(false);
     }
   };
+
   useEffect(() => {
     if (token) {
       getUserData();
+    } else {
+      setLoading(false);
     }
   }, [token]);
+
   const logout = () => {
     localStorage.removeItem("token");
-
     setToken(null);
     setUser(null);
   };
 
   const isAdmin = user ? user.group.name === "SuperAdmin" : false;
+
   return (
     <AuthContext.Provider
       value={{
@@ -111,7 +108,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         isAdmin,
       }}
     >
-      {children}
+      {!loading ? children : <p>Loading...</p>}
     </AuthContext.Provider>
   );
 };

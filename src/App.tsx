@@ -14,6 +14,7 @@ import ProtectedRoute from "./modules/Shared/ProtectedRoute/ProtectedRoute";
 import MasterLayout from "./modules/Shared/MasterLayout/MasterLayout";
 import ResetPassword from "./modules/Authentcations/ResetPassword/ResetPassword";
 
+import "react-toastify/dist/ReactToastify.css";
 function App() {
   const router = createBrowserRouter([
     {
