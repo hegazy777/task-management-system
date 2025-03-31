@@ -59,6 +59,8 @@ export default function Login() {
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="input-group mb-1">
+          <label htmlFor="email">Email</label>
+
           <input
             {...register("email")}
             type="text"
@@ -73,6 +75,8 @@ export default function Login() {
         )}
 
         <div className="input-group mb-1">
+          <label htmlFor="password">Password</label>
+
           <input
             {...register("password")}
             type={toggle ? "text" : "password"}
@@ -88,7 +92,10 @@ export default function Login() {
                 setToggle(!toggle);
               }}
             >
-              <FontAwesomeIcon icon={toggle ? faEyeSlash : faEye} />
+              <FontAwesomeIcon
+                color="white"
+                icon={toggle ? faEyeSlash : faEye}
+              />
             </span>
           </div>
         </div>
