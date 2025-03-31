@@ -1,10 +1,15 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ChangeEvent } from "react";
 import {
+  Button,
   Form,
-  Pagination as PaginationComponent,
+  // Pagination as PaginationComponent,
   Stack,
 } from "react-bootstrap";
-
+import {
+  faChevronRight,
+  faChevronLeft,
+} from "@fortawesome/free-solid-svg-icons";
 export default function Pagination({
   currentPage,
   changeCurrentPage,
@@ -41,7 +46,7 @@ export default function Pagination({
       : { width: "70px" };
 
   return (
-    <Stack direction="horizontal" gap={3} className="justify-content-end">
+    <Stack direction="horizontal" gap={3} className="justify-content-end p-3">
       <Stack direction="horizontal" gap={3}>
         <div>Showing </div>
         <Form.Select
@@ -68,22 +73,28 @@ export default function Pagination({
         Page {currentPage} of {totalNumberOfPages}
       </div>
 
-      <PaginationComponent className="my-auto">
-        <PaginationComponent.Prev
-          onClick={() =>
-            changeCurrentPage((prev: number) => (prev === 1 ? prev : prev - 1))
-          }
-          active={currentPage === 1}
-        />
-        <PaginationComponent.Next
-          onClick={() =>
-            changeCurrentPage((prev: number) =>
-              prev === totalNumberOfPages ? prev : prev + 1
-            )
-          }
-          active={currentPage === totalNumberOfPages}
-        />
-      </PaginationComponent>
+      <Button
+        style={{ backgroundColor: "transparent" }}
+        className="border-0 p-2 text-black"
+        disabled={currentPage === 1}
+        onClick={() =>
+          changeCurrentPage((prev: number) => (prev === 1 ? prev : prev - 1))
+        }
+      >
+        <FontAwesomeIcon icon={faChevronLeft} />
+      </Button>
+      <Button
+        style={{ backgroundColor: "transparent" }}
+        className="border-0 p-2 text-black"
+        disabled={currentPage === totalNumberOfPages}
+        onClick={() =>
+          changeCurrentPage((prev: number) =>
+            prev === totalNumberOfPages ? prev : prev + 1
+          )
+        }
+      >
+        <FontAwesomeIcon icon={faChevronRight} />
+      </Button>
     </Stack>
   );
 }

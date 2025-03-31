@@ -1,0 +1,30 @@
+.overlayBg {
+  background-color: rgba(245, 245, 245, 1);
+  min-height: 100%;
+}
+
+.table > :not(caption) > * > * {
+  padding: 1.25rem !important;
+}
+th {
+  background-color: rgba(160, 177, 174, 0.9) !important;
+  color: white !important;
+}
+
+.tableBg {
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.15);
+  background-color: white;
+  margin: 3rem;
+  border-radius: 0.5rem;
+}
+
+.input {
+  margin-right: 10px !important;
+
+  border: 0 !important;
+}
+.inputGroup {
+  border-radius: 50px;
+  margin: 1rem;
+  border: 1px solid #dee2e6;
+}

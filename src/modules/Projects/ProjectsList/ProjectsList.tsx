@@ -1,12 +1,14 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 // import DeleteConfirmation from "../../Shared/Modal/DeleteConfirmation";
-
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { projects_endpoints } from "../../../services/api/apiConfig";
 import { privateApiInstance } from "../../../services/api/apiInstance";
 import { AxiosError } from "axios";
 import Pagination from "../../Shared/Pagination/Pagination";
-
+import { Table } from "react-bootstrap";
+import styles from "./ProjectsList.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 type ProjectType = {
   id: number;
   title: string;
@@ -132,7 +134,7 @@ export default function ProjectsList() {
   };
 
   return (
-    <div className="h-100">
+    <div className={styles.overlayBg}>
       <div className="title d-flex justify-content-between my-3">
         <div className="caption">
           <h3>Projects</h3>
@@ -143,96 +145,97 @@ export default function ProjectsList() {
         /> */}
       </div>
 
-      <div className="container-fluid">
-        <form onChange={getValues}>
-          <div className="form-group row">
-            <div className="col-md-12">
-              <div className="input-group">
-                <div className="input-group-prepend">
-                  <span
-                    className="input-group-text bg-transparent"
-                    id="search-addon"
-                  >
-                    <i className="fa fa-search"></i>
-                  </span>
+      <div className={styles.tableBg}>
+        <div className="container-fluid">
+          <form onChange={getValues}>
+            <div className="form-group row">
+              <div className="col-md-4">
+                <div className={`${styles.inputGroup} input-group`}>
+                  <div className="input-group-prepend">
+                    <span
+                      className="input-group-text bg-transparent"
+                      id="search-addon"
+                    >
+                      <FontAwesomeIcon icon={faSearch} />
+                    </span>
+                  </div>
+                  <input
+                    name="title"
+                    className={`${styles.input} form-control`}
+                    type="text"
+                    placeholder="Search"
+                  />
                 </div>
-                <input
-                  name="title"
-                  className="form-control"
-                  type="text"
-                  placeholder="Search"
-                />
               </div>
             </div>
-          </div>
-        </form>
-      </div>
-      <table className="table table-striped table-hover">
-        <thead>
-          <tr>
-            <th scope="col">Title</th>
-            <th scope="col">Description</th>
-            <th scope="col">Manager</th>
-            <th scope="col">Creation Date</th>
-            <th scope="col">Modification Date</th>
-            <th scope="col">Actions</th>
-          </tr>
-        </thead>
-
-        {loading ? (
-          <tbody className="text-center">
+          </form>
+        </div>
+        <Table striped hover className={styles.table}>
+          <thead>
             <tr>
-              <td colSpan={3} className="">
-                <div className="spinner-border" role="status">
-                  <span className="visually-hidden">Loading...</span>
-                </div>
-              </td>
+              <th scope="col">Title</th>
+              <th scope="col">Description</th>
+              <th scope="col">Manager</th>
+              <th scope="col">Creation Date</th>
+              <th scope="col">Modification Date</th>
+              <th scope="col">Actions</th>
             </tr>
-          </tbody>
-        ) : (
-          <tbody>
-            {projectsList.length === 0 ? (
+          </thead>
+
+          {loading ? (
+            <tbody className="text-center">
               <tr>
-                <td colSpan={7}>
-                  no data
-                  {/* <NoData /> */}
+                <td colSpan={3} className="">
+                  <div className="spinner-border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
                 </td>
               </tr>
-            ) : (
-              projectsList.map((project) => (
-                <tr key={project.id}>
-                  <td>{project.title}</td>
-                  <td>{project.description}</td>
-                  <td>{project.manager.userName}</td>
-                  <td>{project.creationDate}</td>
-                  <td>{project.modificationDate}</td>
+            </tbody>
+          ) : (
+            <tbody>
+              {projectsList.length === 0 ? (
+                <tr>
+                  <td colSpan={7}>
+                    no data
+                    {/* <NoData /> */}
+                  </td>
+                </tr>
+              ) : (
+                projectsList.map((project) => (
+                  <tr key={project.id}>
+                    <td>{project.title}</td>
+                    <td>{project.description}</td>
+                    <td>{project.manager.userName}</td>
+                    <td>{project.creationDate}</td>
+                    <td>{project.modificationDate}</td>
 
-                  <td>
-                    <div className="dropdown">
-                      <i
-                        className="fa fa-ellipsis text-success m-2"
-                        data-bs-offset="-20,0"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      ></i>
-                      <ul className="dropdown-menu">
-                        <li>
-                          <button className="dropdown-item" type="button">
-                            <i className="fa fa-eye text-success m-2"></i>
-                            View
-                          </button>
-                        </li>
-                        <li>
-                          {/* <CategoryData
+                    <td>
+                      <div className="dropdown">
+                        <i
+                          className="fa fa-ellipsis text-success m-2"
+                          data-bs-offset="-20,0"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        ></i>
+                        <ul className="dropdown-menu">
+                          <li>
+                            <button className="dropdown-item" type="button">
+                              <i className="fa fa-eye text-success m-2"></i>
+                              View
+                            </button>
+                          </li>
+                          <li>
+                            {/* <CategoryData
                             selectedId={category.id}
                             categoryName={category.name}
                             getAllCategories={() =>
                               getAllCategories(10, currentPageNumber, name)
                             }
                           /> */}
-                        </li>
-                        <li>
-                          {/* <button
+                          </li>
+                          <li>
+                            {/* <button
                             className="dropdown-item"
                             onClick={() => handleShow(category.id)}
                             type="button"
@@ -240,32 +243,33 @@ export default function ProjectsList() {
                             <i className="fa fa-trash text-success m-2"></i>
                             Delete
                           </button> */}
-                        </li>
-                      </ul>
-                    </div>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        )}
-      </table>
+                          </li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          )}
+        </Table>
 
-      {/* <DeleteConfirmation
+        {/* <DeleteConfirmation
         item="Category"
         show={showModal}
         handleClose={handleClose}
         handleCloseAndDelete={() => handleCloseAndDelete(selectedId)}
       />
 */}
-      <Pagination
-        currentPage={currentPageNumber}
-        changeCurrentPage={setCurrentPageNumber}
-        totalNumberOfPages={totalNumberOfPages}
-        totalNumberOfRecords={totalNumberOfRecords}
-        pageSize={pageSize}
-        setPageSize={setPageSize}
-      />
+        <Pagination
+          currentPage={currentPageNumber}
+          changeCurrentPage={setCurrentPageNumber}
+          totalNumberOfPages={totalNumberOfPages}
+          totalNumberOfRecords={totalNumberOfRecords}
+          pageSize={pageSize}
+          setPageSize={setPageSize}
+        />
+      </div>
     </div>
   );
 }
