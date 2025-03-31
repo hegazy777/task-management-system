@@ -15,6 +15,8 @@ import MasterLayout from "./modules/Shared/MasterLayout/MasterLayout";
 import ResetPassword from "./modules/Authentcations/ResetPassword/ResetPassword";
 
 import "react-toastify/dist/ReactToastify.css";
+import ProjectsList from "./modules/Projects/ProjectsList/ProjectsList";
+import ProjectData from "./modules/Projects/ProjectData/ProjectData";
 function App() {
   const router = createBrowserRouter([
     {
@@ -41,11 +43,19 @@ function App() {
         </ProtectedRoute>
       ),
       errorElement: <NotFound />,
-
       children: [
         {
           index: true,
           element: <Dashboard />,
+        },
+        { path: "projects", element: <ProjectsList /> },
+        {
+          path: "projects/new",
+          element: <ProjectData />,
+        },
+        {
+          path: "projects/:id/edit",
+          element: <ProjectData />,
         },
       ],
     },
@@ -53,7 +63,7 @@ function App() {
 
   return (
     <AuthProvider>
-      <RouterProvider router={router}></RouterProvider>
+      <RouterProvider router={router} />
       <ToastContainer />
     </AuthProvider>
   );
