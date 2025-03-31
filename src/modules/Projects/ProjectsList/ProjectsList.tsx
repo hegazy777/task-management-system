@@ -1,12 +1,16 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 // import DeleteConfirmation from "../../Shared/Modal/DeleteConfirmation";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import {
+  faSearch,
+  faEllipsis,
+  faEyeSlash,
+} from "@fortawesome/free-solid-svg-icons";
 import { projects_endpoints } from "../../../services/api/apiConfig";
 import { privateApiInstance } from "../../../services/api/apiInstance";
 import { AxiosError } from "axios";
 import Pagination from "../../Shared/Pagination/Pagination";
-import { Table } from "react-bootstrap";
+import { Dropdown, Table } from "react-bootstrap";
 import styles from "./ProjectsList.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 type ProjectType = {
@@ -185,7 +189,7 @@ export default function ProjectsList() {
           {loading ? (
             <tbody className="text-center">
               <tr>
-                <td colSpan={3} className="">
+                <td colSpan={6} className="">
                   <div className="spinner-border" role="status">
                     <span className="visually-hidden">Loading...</span>
                   </div>
@@ -211,31 +215,40 @@ export default function ProjectsList() {
                     <td>{project.modificationDate}</td>
 
                     <td>
-                      <div className="dropdown">
-                        <i
-                          className="fa fa-ellipsis text-success m-2"
-                          data-bs-offset="-20,0"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        ></i>
-                        <ul className="dropdown-menu">
-                          <li>
-                            <button className="dropdown-item" type="button">
-                              <i className="fa fa-eye text-success m-2"></i>
-                              View
-                            </button>
-                          </li>
-                          <li>
-                            {/* <CategoryData
+                      <Dropdown align="end">
+                        <Dropdown.Toggle
+                          id="dropdown-basic"
+                          icon={faEllipsis}
+                          className="test-success m-2"
+                          as={FontAwesomeIcon}
+                        />
+
+                        <Dropdown.Menu>
+                          <Dropdown.Item eventKey="1">
+                            <FontAwesomeIcon icon={faEyeSlash} />
+                            View
+                          </Dropdown.Item>
+                          <Dropdown.Item eventKey="2">
+                            Another action
+                          </Dropdown.Item>
+                          {/* <ul className="dropdown-menu">
+                            <li>
+                              <button className="dropdown-item" type="button">
+                                <i className="fa fa-eye text-success m-2"></i>
+                                View
+                              </button>
+                            </li>
+                            <li> */}
+                          {/* <CategoryData
                             selectedId={category.id}
                             categoryName={category.name}
                             getAllCategories={() =>
                               getAllCategories(10, currentPageNumber, name)
                             }
                           /> */}
-                          </li>
-                          <li>
-                            {/* <button
+                          {/* </li>
+                            <li> */}
+                          {/* <button
                             className="dropdown-item"
                             onClick={() => handleShow(category.id)}
                             type="button"
@@ -243,9 +256,10 @@ export default function ProjectsList() {
                             <i className="fa fa-trash text-success m-2"></i>
                             Delete
                           </button> */}
-                          </li>
-                        </ul>
-                      </div>
+                          {/* </li>
+                          </ul> */}
+                        </Dropdown.Menu>
+                      </Dropdown>
                     </td>
                   </tr>
                 ))
