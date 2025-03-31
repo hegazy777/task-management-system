@@ -13,3 +13,10 @@ export const users_endpoints = {
   CHANGE_PASSWORD: `/Users/ChangePassword`,
   UPDATE_USER: `/Users/`,
 };
+
+export const projects_endpoints = {
+  GET_ALL_PROJECT: `/Project/`,
+  UPDATE_PROJECT: (id: number) => `/Project/${id}`,
+  DELETE_PROJECT: (id: number) => `/Project/${id}`,
+  ADD_PROJECT: `/Category`,
+};

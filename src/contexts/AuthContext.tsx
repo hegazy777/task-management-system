@@ -1,6 +1,8 @@
 import { privateApiInstance } from "../services/api/apiInstance";
 import { users_endpoints } from "../services/api/apiConfig";
 import { createContext, useEffect, useState, ReactNode } from "react";
+import { useLocalStorage } from "./useLocalStorge";
+import { Spinner } from "react-bootstrap";
 
 interface UserGroup {
   id: number;
@@ -23,49 +25,19 @@ interface User {
 }
 
 export type AuthContextType = {
-  setUser: (user: User | null) => void;
-  setToken: (token: string | null) => void;
   token: string | null;
   user: User | null;
+  setToken: (newValue: string) => void;
   logout: () => void;
   isAdmin: boolean;
 };
 
-export const AuthContext = createContext<AuthContextType>({} as AuthContextType);
-
-const useLocalStorage = (
-  key: string
-): [string | null, (newValue: string | null) => void] => {
-  const [value, setValue] = useState<string | null>(() => localStorage.getItem(key));
-
-  useEffect(() => {
-    const handleStorageChange = (event: StorageEvent) => {
-      if (event.key === key) {
-        setValue(event.newValue);
-      }
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, [key]);
-
-  const setStoredValue = (newValue: string | null) => {
-    if (newValue === null) {
-      localStorage.removeItem(key);
-    } else {
-      localStorage.setItem(key, newValue);
-    }
-    setValue(newValue);
-  };
-
-  return [value, setStoredValue];
-};
+export const AuthContext = createContext<AuthContextType>(
+  {} as AuthContextType
+);
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [token, setToken] = useLocalStorage("token");
+  const [token, setToken, removeToken] = useLocalStorage();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -82,7 +54,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
-    if (token) {
+    if (token && !user) {
       getUserData();
     } else {
       setLoading(false);
@@ -90,8 +62,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [token]);
 
   const logout = () => {
-    localStorage.removeItem("token");
-    setToken(null);
+    removeToken();
     setUser(null);
   };
 
@@ -100,15 +71,22 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   return (
     <AuthContext.Provider
       value={{
-        setToken,
-        setUser,
         token,
+        setToken,
         user,
         logout,
         isAdmin,
       }}
     >
-      {!loading ? children : <p>Loading...</p>}
+      {!loading ? (
+        children
+      ) : (
+        <div className="d-flex justify-content-center align-items-center vh-100 vw-100">
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div>
+      )}
     </AuthContext.Provider>
   );
 };
