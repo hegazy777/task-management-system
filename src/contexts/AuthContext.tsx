@@ -32,6 +32,7 @@ export type AuthContextType = {
   isAdmin: boolean;
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext<AuthContextType>(
   {} as AuthContextType
 );
@@ -59,6 +60,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     } else {
       setLoading(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   const logout = () => {
@@ -78,14 +80,14 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         isAdmin,
       }}
     >
-      {!loading ? (
-        children
-      ) : (
+      {loading ? (
         <div className="d-flex justify-content-center align-items-center vh-100 vw-100">
           <Spinner animation="border" role="status">
             <span className="visually-hidden">Loading...</span>
           </Spinner>
         </div>
+      ) : (
+        children
       )}
     </AuthContext.Provider>
   );
