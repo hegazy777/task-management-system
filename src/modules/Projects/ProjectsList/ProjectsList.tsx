@@ -6,6 +6,7 @@ import {
   faEllipsis,
   faEyeSlash,
   faTrash,
+  faEdit,
 } from "@fortawesome/free-solid-svg-icons";
 import { projects_endpoints } from "../../../services/api/apiConfig";
 import { privateApiInstance } from "../../../services/api/apiInstance";
@@ -240,6 +241,17 @@ export default function ProjectsList() {
                                   icon={faEyeSlash}
                                 />
                                 <span>View</span>
+                              </div>
+                            </Dropdown.Item>
+                            <Dropdown.Item className={styles.dropdownItem}>
+                              <div
+                                onClick={() => navigate(`${project.id}/edit`)}
+                              >
+                                <FontAwesomeIcon
+                                  icon={faEdit}
+                                  className={styles.dropdownIcon}
+                                />
+                                <span>Edit</span>
                               </div>
                             </Dropdown.Item>
                             <Dropdown.Item className={styles.dropdownItem}>
