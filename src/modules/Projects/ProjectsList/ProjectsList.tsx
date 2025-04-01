@@ -5,14 +5,17 @@ import {
   faSearch,
   faEllipsis,
   faEyeSlash,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { projects_endpoints } from "../../../services/api/apiConfig";
 import { privateApiInstance } from "../../../services/api/apiInstance";
 import { AxiosError } from "axios";
 import Pagination from "../../Shared/Pagination/Pagination";
-import { Dropdown, Table } from "react-bootstrap";
+import { Button, Dropdown, Stack, Table } from "react-bootstrap";
 import styles from "./ProjectsList.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import DeleteConfirmation from "../../Shared/DeleteConfirmation/DeleteConfirmation";
+import { useNavigate } from "react-router-dom";
 type ProjectType = {
   id: number;
   title: string;
@@ -28,6 +31,7 @@ type ManagerType = {
   imagePath: string;
 };
 export default function ProjectsList() {
+  const navigate = useNavigate();
   // handle fetch logic
   const [projectsList, setProjectList] = useState<ProjectType[]>([]);
   const [loading, setLoading] = useState(true);
@@ -92,41 +96,39 @@ export default function ProjectsList() {
   };
   useEffect(() => {
     getAllProjects(pageSize, currentPageNumber, title);
-
-    console.log(title);
   }, [currentPageNumber, title, pageSize]);
 
   // handle delete category logic
-  // const deleteCategory = async (selectedId: number) => {
-  //   try {
-  //     await privateApiInstance.delete(
-  //       projects_endpoints.DELETE_PROJECT(selectedId)
-  //     );
-  //     toast.success("Item is deleted successfully");
-  //     getAllProjects(10, currentPageNumber, title);
-  //   } catch (error) {
-  //     const axiosError = error as AxiosError<{ message?: string }>;
-  //     toast.error(axiosError?.response?.data?.message);
-  //   }
-  // };
+  const deleteCategory = async (selectedId: number) => {
+    try {
+      await privateApiInstance.delete(
+        projects_endpoints.DELETE_PROJECT(selectedId)
+      );
+      toast.success("Item is deleted successfully");
+      getAllProjects(10, currentPageNumber, title);
+    } catch (error) {
+      const axiosError = error as AxiosError<{ message?: string }>;
+      toast.error(axiosError?.response?.data?.message);
+    }
+  };
   // confirmation model before delete
-  // const [showModal, setShowModal] = useState(false);
-  // const [selectedId, setSelectedId] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedId, setSelectedId] = useState<number | null>(null);
 
-  // const handleShow = (id) => {
-  //   setShowModal(true);
-  //   setSelectedId(id);
-  // };
+  const handleShow = (id: number) => {
+    setShowModal(true);
+    setSelectedId(id);
+  };
 
-  // const handleClose = () => {
-  //   setShowModal(false);
-  //   setSelectedId(null);
-  // };
+  const handleClose = () => {
+    setShowModal(false);
+    setSelectedId(null);
+  };
 
-  // const handleCloseAndDelete = (id) => {
-  //   handleClose();
-  //   deleteCategory(id);
-  // };
+  const handleCloseAndDelete = (id: number | null) => {
+    handleClose();
+    if (id) deleteCategory(id);
+  };
 
   const getValues = (e: ChangeEvent<HTMLFormElement>) => {
     setQuery((prev) => {
@@ -139,99 +141,117 @@ export default function ProjectsList() {
 
   return (
     <div className={styles.overlayBg}>
-      <div className="title d-flex justify-content-between my-3">
+      <Stack
+        gap={3}
+        direction="horizontal"
+        className={`${styles.Header} px-5 d-flex justify-content-between align-items-center bg-white`}
+      >
         <div className="caption">
           <h3>Projects</h3>
         </div>
-        <button className="btn btn-success my-auto">Add new project</button>
+        <Button variant="outline-secondary" onClick={() => navigate("new")}>
+          Add New Project
+        </Button>
         {/* <CategoryData
           getAllCategories={() => getAllCategories(10, currentPageNumber, name)}
         /> */}
-      </div>
+      </Stack>
 
-      <div className={styles.tableBg}>
-        <div className="container-fluid">
-          <form onChange={getValues}>
-            <div className="form-group row">
-              <div className="col-md-4">
-                <div className={`${styles.inputGroup} input-group`}>
-                  <div className="input-group-prepend">
-                    <span
-                      className="input-group-text bg-transparent"
-                      id="search-addon"
-                    >
-                      <FontAwesomeIcon icon={faSearch} />
-                    </span>
+      <div className="p-5">
+        <div className={styles.containerBg}>
+          <div className="container-fluid">
+            <form onChange={getValues}>
+              <div className="form-group row">
+                <div className="col-md-4">
+                  <div className={`${styles.inputGroup} input-group`}>
+                    <div className="input-group-prepend">
+                      <span
+                        className="input-group-text bg-transparent"
+                        id="search-addon"
+                      >
+                        <FontAwesomeIcon icon={faSearch} />
+                      </span>
+                    </div>
+                    <input
+                      name="title"
+                      className={`${styles.input} form-control`}
+                      type="text"
+                      placeholder="Search"
+                    />
                   </div>
-                  <input
-                    name="title"
-                    className={`${styles.input} form-control`}
-                    type="text"
-                    placeholder="Search"
-                  />
                 </div>
               </div>
-            </div>
-          </form>
-        </div>
-        <Table striped hover className={styles.table}>
-          <thead>
-            <tr>
-              <th scope="col">Title</th>
-              <th scope="col">Description</th>
-              <th scope="col">Manager</th>
-              <th scope="col">Creation Date</th>
-              <th scope="col">Modification Date</th>
-              <th scope="col">Actions</th>
-            </tr>
-          </thead>
-
-          {loading ? (
-            <tbody className="text-center">
+            </form>
+          </div>
+          <Table striped hover className={styles.table}>
+            <thead>
               <tr>
-                <td colSpan={6} className="">
-                  <div className="spinner-border" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                  </div>
-                </td>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Manager</th>
+                <th scope="col">Creation Date</th>
+                <th scope="col">Modification Date</th>
+                <th scope="col">Actions</th>
               </tr>
-            </tbody>
-          ) : (
-            <tbody>
-              {projectsList.length === 0 ? (
+            </thead>
+
+            {loading ? (
+              <tbody className="text-center">
                 <tr>
-                  <td colSpan={7}>
-                    no data
-                    {/* <NoData /> */}
+                  <td colSpan={6} className="">
+                    <div className="spinner-border" role="status">
+                      <span className="visually-hidden">Loading...</span>
+                    </div>
                   </td>
                 </tr>
-              ) : (
-                projectsList.map((project) => (
-                  <tr key={project.id}>
-                    <td>{project.title}</td>
-                    <td>{project.description}</td>
-                    <td>{project.manager.userName}</td>
-                    <td>{project.creationDate}</td>
-                    <td>{project.modificationDate}</td>
+              </tbody>
+            ) : (
+              <tbody>
+                {projectsList.length === 0 ? (
+                  <tr>
+                    <td colSpan={7}>
+                      no data
+                      {/* <NoData /> */}
+                    </td>
+                  </tr>
+                ) : (
+                  projectsList.map((project) => (
+                    <tr key={project.id}>
+                      <td>{project.title}</td>
+                      <td>{project.description}</td>
+                      <td>{project.manager.userName}</td>
+                      <td>{project.creationDate}</td>
+                      <td>{project.modificationDate}</td>
 
-                    <td>
-                      <Dropdown align="end">
-                        <Dropdown.Toggle
-                          id="dropdown-basic"
-                          icon={faEllipsis}
-                          className="test-success m-2"
-                          as={FontAwesomeIcon}
-                        />
+                      <td>
+                        <Dropdown align="end">
+                          <Dropdown.Toggle
+                            id="dropdown-basic"
+                            icon={faEllipsis}
+                            className="test-success m-2"
+                            as={FontAwesomeIcon}
+                          />
 
-                        <Dropdown.Menu>
-                          <Dropdown.Item eventKey="1">
-                            <FontAwesomeIcon icon={faEyeSlash} />
-                            View
-                          </Dropdown.Item>
-                          <Dropdown.Item eventKey="2">
-                            Another action
-                          </Dropdown.Item>
-                          {/* <ul className="dropdown-menu">
+                          <Dropdown.Menu variant="secondary">
+                            <Dropdown.Item className={styles.dropdownItem}>
+                              <div>
+                                <FontAwesomeIcon
+                                  className={styles.dropdownIcon}
+                                  icon={faEyeSlash}
+                                />
+                                <span>View</span>
+                              </div>
+                            </Dropdown.Item>
+                            <Dropdown.Item className={styles.dropdownItem}>
+                              <div onClick={() => handleShow(project.id)}>
+                                <FontAwesomeIcon
+                                  icon={faTrash}
+                                  className={styles.dropdownIcon}
+                                />
+                                <span>Delete</span>
+                              </div>
+                            </Dropdown.Item>
+                            {/* <ul className="dropdown-menu">
                             <li>
                               <button className="dropdown-item" type="button">
                                 <i className="fa fa-eye text-success m-2"></i>
@@ -239,50 +259,56 @@ export default function ProjectsList() {
                               </button>
                             </li>
                             <li> */}
-                          {/* <CategoryData
+                            {/* <CategoryData
                             selectedId={category.id}
                             categoryName={category.name}
                             getAllCategories={() =>
                               getAllCategories(10, currentPageNumber, name)
                             }
                           /> */}
-                          {/* </li>
+                            {/* </li>
                             <li> */}
-                          {/* <button
+                            {/*
+                          
+                          
+                          <button
                             className="dropdown-item"
                             onClick={() => handleShow(category.id)}
                             type="button"
                           >
                             <i className="fa fa-trash text-success m-2"></i>
                             Delete
-                          </button> */}
-                          {/* </li>
+                          </button>
+                          
+                          */}
+                            {/* </li>
                           </ul> */}
-                        </Dropdown.Menu>
-                      </Dropdown>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          )}
-        </Table>
+                          </Dropdown.Menu>
+                        </Dropdown>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            )}
+          </Table>
 
-        {/* <DeleteConfirmation
-        item="Category"
-        show={showModal}
-        handleClose={handleClose}
-        handleCloseAndDelete={() => handleCloseAndDelete(selectedId)}
-      />
-*/}
-        <Pagination
-          currentPage={currentPageNumber}
-          changeCurrentPage={setCurrentPageNumber}
-          totalNumberOfPages={totalNumberOfPages}
-          totalNumberOfRecords={totalNumberOfRecords}
-          pageSize={pageSize}
-          setPageSize={setPageSize}
-        />
+          <Pagination
+            currentPage={currentPageNumber}
+            changeCurrentPage={setCurrentPageNumber}
+            totalNumberOfPages={totalNumberOfPages}
+            totalNumberOfRecords={totalNumberOfRecords}
+            pageSize={pageSize}
+            setPageSize={setPageSize}
+          />
+
+          <DeleteConfirmation
+            item="Project"
+            show={showModal}
+            handleClose={handleClose}
+            handleCloseAndDelete={() => handleCloseAndDelete(selectedId)}
+          />
+        </div>
       </div>
     </div>
   );

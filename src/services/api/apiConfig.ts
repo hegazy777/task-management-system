@@ -16,7 +16,8 @@ export const users_endpoints = {
 
 export const projects_endpoints = {
   GET_ALL_PROJECTS: `/Project/`,
+  GET_PROJECT: (id: number) => `/Project/${id}`,
   UPDATE_PROJECT: (id: number) => `/Project/${id}`,
   DELETE_PROJECT: (id: number) => `/Project/${id}`,
-  ADD_PROJECT: `/Category`,
+  ADD_PROJECT: `/Project`,
 };

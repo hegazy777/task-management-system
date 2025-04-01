@@ -11,7 +11,7 @@ const Layout = () => {
         <Col xs={12} md={3} lg={2} className="bg-light vh-100 w-25 bg-warning">
           <SideBar />
         </Col>
-        <Col xs={12} md={9} lg={10} className="p-0 w-75">
+        <Col xs={12} md={9} lg={10} className="p-0 w-75 vh-100">
           <NavBar />
           <Outlet />
         </Col>
