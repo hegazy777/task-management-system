@@ -6,9 +6,9 @@ export default function Dashboard() {
   return (
     <div>
       Dashboard
-      <button className="btn btn-danger" onClick={() => logout()}>
+      {/* <button className="btn btn-danger" onClick={() => logout()}>
         Logout
-      </button>
+      </button> */}
     </div>
   );
 }

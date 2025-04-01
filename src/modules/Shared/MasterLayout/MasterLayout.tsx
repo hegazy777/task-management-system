@@ -7,17 +7,31 @@ import NavBar from "../NavBar/NavBar";
 
 const Layout = () => {
   return (
-    <Container fluid>
-      <Row>
-        <Col xs={12} md={3} lg={2} className="bg-light vh-100 w-25 bg-warning">
-          <SideBar />
-        </Col>
-        <Col xs={12} md={9} lg={10} className="p-0 w-75">
-          <NavBar />
-          <Outlet />
-        </Col>
-      </Row>
-    </Container>
+   <>
+
+<div className="">
+   
+   <div className="sidebar-container bg-warning">
+     
+     <NavBar />
+   </div>
+   </div>
+
+
+   <div className="content-container d-flex flex-column flex-grow-1">
+   <div className="d-flex vh-100">
+
+   <div className="sidebar-container">
+     
+   <SideBar />
+   </div>
+   
+     <div className="flex-grow-1 p-3">
+       <Outlet />
+     </div>
+   </div>
+ </div>
+   </>
   );
 };
 
