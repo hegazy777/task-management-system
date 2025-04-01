@@ -24,7 +24,7 @@ body {
 .input-group-append {
   position: absolute;
   right: 0;
-  top: 2px;
+  bottom: 0.75rem;
 }
 
 .input-group-text {

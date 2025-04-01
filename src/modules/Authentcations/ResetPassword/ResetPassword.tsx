@@ -6,7 +6,7 @@ import AuthTitle from "../../Shared/AuthTitle/AuthTitle";
 import { useForm } from "react-hook-form";
 import { AxiosError } from "axios";
 import { toast } from "react-toastify";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { apiInstance } from "../../../services/api/apiInstance";
@@ -25,6 +25,8 @@ export default function ResetPassword() {
 
   const {
     register,
+    watch,
+    trigger,
     formState: { errors, isSubmitting, defaultValues },
     handleSubmit,
   } = useForm({
@@ -40,6 +42,15 @@ export default function ResetPassword() {
 
   const [toggle, setToggle] = useState(false);
   const [toggleConfirm, setToggleConfirm] = useState(false);
+
+  const password = watch("password");
+  const confirmPassword = watch("confirmPassword");
+
+  useEffect(() => {
+    if (confirmPassword) {
+      trigger("confirmPassword");
+    }
+  }, [password, confirmPassword, trigger]);
 
   const onSubmit = async (data: DataType) => {
     try {
@@ -72,7 +83,7 @@ export default function ResetPassword() {
           <div className="pb-3 text-danger">{errors.email.message}</div>
         )}
         <div className="input-group mb-1">
-          <label htmlFor="email">OTP Verification</label>
+          <label htmlFor="otp">OTP Verification</label>
           <input
             {...register("seed")}
             type="text"
@@ -103,7 +114,10 @@ export default function ResetPassword() {
                 setToggle(!toggle);
               }}
             >
-              <FontAwesomeIcon icon={toggle ? faEyeSlash : faEye} />
+              <FontAwesomeIcon
+                color="white"
+                icon={toggle ? faEyeSlash : faEye}
+              />
             </span>
           </div>
         </div>
@@ -129,7 +143,10 @@ export default function ResetPassword() {
                 setToggleConfirm(!toggleConfirm);
               }}
             >
-              <FontAwesomeIcon icon={toggleConfirm ? faEyeSlash : faEye} />
+              <FontAwesomeIcon
+                color="white"
+                icon={toggleConfirm ? faEyeSlash : faEye}
+              />
             </span>
           </div>
         </div>
