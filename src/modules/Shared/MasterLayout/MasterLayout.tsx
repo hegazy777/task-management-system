@@ -8,20 +8,13 @@ import NavBar from "../NavBar/NavBar";
 const Layout = () => {
   return (
     <>
-      
-        <div className="">
-          <NavBar />
-        </div>
-     
 
-      <div className="d-flex h-100">
-        <div className="sidebar-container">
-          <SideBar />
-        </div>
-
-        <div className="p-3">
-          <Outlet />
-        </div>
+      <div className="w-100">
+        <NavBar />
+      </div>
+      <div className="d-flex "style={{  height: "100vh" }}>
+        <SideBar />
+        <Outlet />
       </div>
     </>
   );

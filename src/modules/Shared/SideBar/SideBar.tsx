@@ -10,8 +10,8 @@ export default function SideBar() {
   const [collapsed, setCollapsed] = useState(false);
  
   return (
-    <div className="sidebar-container">
-      <Sidebar collapsed={collapsed} style={{ height: "100vh" }}>
+    <div className="sidebar-container" style={{  height: "100vh" }}>
+      <Sidebar collapsed={collapsed} >
         <div className="sidebar-header" style={{ position: "relative", padding: "10px", marginBottom: "20px" }}>
           <Button
             variant="warning"
