@@ -17,7 +17,7 @@ export default function Dashboard() {
   const [activeUsers, setActiveUsers] = useState(null);
   const [inactiveUsers, setInactiveUsers] = useState(null);
 
-  // Register required Chart.js components
+  
   ChartJS.register(ArcElement, Tooltip, Legend);
 
   useEffect(() => {
@@ -96,18 +96,50 @@ export default function Dashboard() {
               <Card.Title>Tasks</Card.Title>
               <Card.Text>Manage your tasks efficiently</Card.Text>
               <div className="d-flex gap-3 mt-3">
-                <div className="text-center bg-light p-3 rounded flex-grow-1">
-                  <BsGraphUp size={25} className="mb-2" />
+                <div className="text-start bg-light p-3 rounded flex-grow-1">
+                  <div
+                    className="d-inline-flex align-items-center justify-content-center "
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      backgroundColor: "#C8B6FF",
+                      borderRadius: "20px",
+                    }}
+                  >
+                    <BsGraphUp size={20} color="#000" />
+                  </div>
                   <p className="small m-0">Progress</p>
                   <p className="fw-bold fs-4">{taskProgress ?? "Loading..."}</p>
                 </div>
-                <div className="text-center bg-warning bg-opacity-25 p-3 rounded flex-grow-1">
-                  <BsClipboardCheck size={25} className="mb-2" />
+                <div className="text-start bg-warning bg-opacity-25 p-3 rounded flex-grow-1">
+                  <div
+                    className="d-inline-flex align-items-center justify-content-center "
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      backgroundColor: "#E4E4BC",
+                      borderRadius: "20px",
+                    }}
+                  >
+                    <BsClipboardCheck size={20} color="#000" />
+                  </div>
+
                   <p className="small m-0">Tasks</p>
                   <p className="fw-bold fs-4">{taskCount ?? "Loading..."}</p>
                 </div>
-                <div className="text-center bg-danger bg-opacity-25 p-3 rounded flex-grow-1">
-                  <BsDiagram3 size={25} className="mb-2" />
+                <div className="text-start   bg-danger bg-opacity-25 p-3 rounded flex-grow-1">
+                  <div
+                    className="d-inline-flex align-items-center justify-content-center "
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      backgroundColor: "#E7C3D7",
+                      borderRadius: "20px",
+                    }}
+                  >
+                    <BsDiagram3 size={20} color="#000" />
+                  </div>
+
                   <p className="small m-0">Projects</p>
                   <p className="fw-bold fs-4">32</p>
                 </div>
@@ -120,15 +152,39 @@ export default function Dashboard() {
               <Card.Title>Users</Card.Title>
               <Card.Text>Check user activity</Card.Text>
               <div className="d-flex gap-3 mt-3">
-                <div className="text-center bg-light p-3 rounded flex-grow-1">
-                  <BsPersonCheck size={25} className="mb-2" />
+                <div className="text-start bg-light p-3 rounded flex-grow-1">
+                <div
+                    className="d-inline-flex align-items-center justify-content-center "
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      backgroundColor: "#E7C3D7",
+                      borderRadius: "20px",
+                    }}
+                  >
+                    <BsPersonCheck size={20} color="#000" />
+                  </div>
+                  
                   <p className="small m-0">Active</p>
                   <p className="fw-bold fs-4">{activeUsers ?? "Loading..."}</p>
                 </div>
-                <div className="text-center bg-danger bg-opacity-25 p-3 rounded flex-grow-1">
-                  <BsPersonX size={25} className="mb-2" />
+                <div className="text-start bg-danger bg-opacity-25 p-3 rounded flex-grow-1">
+                <div
+                    className="d-inline-flex align-items-center justify-content-center "
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      backgroundColor: "#E7C3D7",
+                      borderRadius: "20px",
+                    }}
+                  >
+                    <BsPersonX size={20} color="#000" />
+                  </div>
+                  
                   <p className="small m-0">Inactive</p>
-                  <p className="fw-bold fs-4">{inactiveUsers ?? "Loading..."}</p>
+                  <p className="fw-bold fs-4">
+                    {inactiveUsers ?? "Loading..."}
+                  </p>
                 </div>
               </div>
             </Card>
