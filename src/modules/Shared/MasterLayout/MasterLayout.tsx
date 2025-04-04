@@ -12,7 +12,7 @@ const Layout = () => {
       <div className="w-100">
         <NavBar />
       </div>
-      <div className="d-flex "style={{  height: "100vh" }}>
+      <div className="d-flex ">
         <SideBar />
         <Outlet />
       </div>
