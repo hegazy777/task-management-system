@@ -7,7 +7,9 @@ html,
 body {
   height: 100%;
   width: 100%;
-  background-color: rgba(245, 245, 245, 1) !important;
+
+  
+
 }
 .auth-container {
   height: 100vh;
@@ -78,7 +80,7 @@ input {
   background-image: url("../src/assets/loginbg.png");
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: 100% 100%;
+  background-size: cover; 
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -89,4 +91,32 @@ input {
   width: 100%;
   background-color: rgba(49, 89, 81, 0.9);
   border-radius: 16px;
+}
+
+.dashboard-container {
+  background-image: url("../src/assets/home-bg.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover; 
+  height: 100vh; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sidebar-container{
+  background-color: #0E382F!important;
+  
+}
+
+.css-dip3t8 {
+  position: relative;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: rgb(14 56 47) !important;
+  color: #fff;
+}
+.css-1t8x7v1 >.ps-menu-button:hover {
+  background-color: transparent !important;
 }

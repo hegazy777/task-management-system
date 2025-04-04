@@ -10,15 +10,15 @@ export default function SideBar() {
   const [collapsed, setCollapsed] = useState(false);
  
   return (
-    <div className="sidebar-container">
-      <Sidebar collapsed={collapsed}>
-        <div className="sidebar-header" style={{ position: "relative", padding: "10px",marginBottom:"20px" }}>
+    <div className="sidebar-container" >
+      <Sidebar collapsed={collapsed} >
+        <div className="sidebar-header" style={{ position: "relative", padding: "10px", marginBottom: "20px" }}>
           <Button
             variant="warning"
             className="toggle-btn"
             onClick={() => setCollapsed(!collapsed)}
             style={{
-              height:"45px",
+              height: "45px",
               position: "absolute",
               top: "10px",
               right: "-15px",
@@ -43,19 +43,12 @@ export default function SideBar() {
           <MenuItem component={<Link to="/tasks" />}>
             <FaTasks style={{ marginRight: "10px" }} /> Tasks
           </MenuItem>
-          <MenuItem component={<Link to="/tasks" />}>
-            <FaTasks style={{ marginRight: "10px" }} /> Tasks
-          </MenuItem>
           <MenuItem onClick={() => logout()}>
             <FaTasks style={{ marginRight: "10px" }} /> 
             LogOut
           </MenuItem>
         </Menu>
-        <div>
-      
-    </div>
       </Sidebar>
-      
     </div>
   );
 }
