@@ -16,6 +16,7 @@ export default function Dashboard() {
   const [taskProgress, setTaskProgress] = useState(null);
   const [activeUsers, setActiveUsers] = useState(null);
   const [inactiveUsers, setInactiveUsers] = useState(null);
+  const [allProjesc, setAllProjesc] = useState(null);
 
   
   ChartJS.register(ArcElement, Tooltip, Legend);
@@ -38,6 +39,21 @@ export default function Dashboard() {
       }
     };
 
+    const fetchProject = async () => {
+      try {
+        const response = await axios.get(
+          "https://upskilling-egypt.com:3003/api/v1/Project/?pageSize=3&pageNumber=4",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        setAllProjesc(response.data.totalNumberOfRecords);
+
+      } catch (error) {
+        console.error("Error fetching task count:", error);
+      }
+    };
+
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
@@ -55,14 +71,15 @@ export default function Dashboard() {
     };
 
     fetchTaskData();
+    fetchProject();
     fetchUserData();
   }, []);
 
   const userData = {
-    labels: ["Active Users", "Inactive Users"],
+    labels: ["Active Users", "Inactive Users","Projects"],
     datasets: [
       {
-        data: [3, 5], // Default to 0 if data is not yet loaded
+        data: [inactiveUsers, activeUsers,allProjesc,], // Default to 0 if data is not yet loaded
         backgroundColor: ["#36A2EB", "#FF6384"], // Blue for active, Red for inactive
         hoverBackgroundColor: ["#2A8DD1", "#D9534F"],
       },
@@ -141,7 +158,7 @@ export default function Dashboard() {
                   </div>
 
                   <p className="small m-0">Projects</p>
-                  <p className="fw-bold fs-4">32</p>
+                  <p className="fw-bold fs-4">{allProjesc}</p>
                 </div>
               </div>
             </Card>
