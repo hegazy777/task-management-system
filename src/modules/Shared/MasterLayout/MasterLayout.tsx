@@ -1,4 +1,3 @@
-import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
 import { Outlet } from "react-router-dom";
@@ -9,6 +8,9 @@ const Layout = () => {
   return (
     <>
 
+
+
+
       <div className="w-100">
         <NavBar />
       </div>
@@ -17,6 +19,7 @@ const Layout = () => {
         <Outlet />
       </div>
     </>
+
   );
 };
 

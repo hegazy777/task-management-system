@@ -1,3 +1,4 @@
+import { Spinner } from "react-bootstrap";
 import styles from "./AuthButton.module.css";
 
 function AuthButton({
@@ -12,9 +13,9 @@ function AuthButton({
 
     <button type="submit" className={styles.authBtn} disabled={isSubmitting}>
       {isSubmitting ? (
-        <div className="spinner-border" role="status">
+        <Spinner animation="border" role="status">
           <span className="visually-hidden">Loading...</span>
-        </div>
+        </Spinner>
       ) : (
         title
       )}
