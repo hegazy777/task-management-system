@@ -13,8 +13,9 @@ import { countryVerfication, emailVefication, passwValidation } from '../../../s
 import { userNameValidation, phoneNumberVefication } from './../../../services/vaildators';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { userData } from './../../../services/interFace';
-import useConfirmPasswoedHook from './../../NotFound/Hooks/useConfirmPasswoedHook';
-import usePasswordHook from './../../NotFound/Hooks/usePasswordHook';
+import usePasswordHook from '../../../Hooks/usePasswordHook';
+import useConfirmPasswoedHook from '../../../Hooks/useConfirmPasswoedHook';
+
 
 export default function Register() {
 
