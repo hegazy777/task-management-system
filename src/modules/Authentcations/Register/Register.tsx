@@ -12,27 +12,16 @@ import { useNavigate } from 'react-router-dom';
 import { countryVerfication, emailVefication, passwValidation } from '../../../services/vaildators';
 import { userNameValidation, phoneNumberVefication } from './../../../services/vaildators';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { userData } from './../../../services/interFace';
+import useConfirmPasswoedHook from './../../NotFound/Hooks/useConfirmPasswoedHook';
+import usePasswordHook from './../../NotFound/Hooks/usePasswordHook';
 
 export default function Register() {
 
-  const [eyeTogel, setEyeTogel] = useState(false)
-  const [eyeTogel2, setEyeTogel2] = useState(false)
   const navigate = useNavigate()
-  function changeTogle(): void {
-    setEyeTogel(!eyeTogel)
-  }
-  function changeTogle2(): void {
-    setEyeTogel2(!eyeTogel2)
-  }
-  interface userData {
-    userName: string,
-    email: string,
-    country: string,
-    phoneNumber: number,
-    password: string | number,
-    confirmPassword: string | number
 
-  }
+  let { changeTogle, eyeTogel } = useConfirmPasswoedHook()
+  let { changeTogle2, eyeTogel2 } = usePasswordHook()
 
 
   const { formState: { errors, isSubmitted }, register, trigger, watch, handleSubmit } = useForm({ mode: `all` })
@@ -41,8 +30,8 @@ export default function Register() {
     console.log(data)
     apiInstance.post(users_endpoints.REGISTER, data).then((res) => {
       toast.success(res.data.message)
-      navigate("/verify-account", {state:data.email})
-      
+      navigate("/verify-account", { state: data.email })
+
     }).catch((res) => {
       toast.error(res.
         response
@@ -75,7 +64,7 @@ export default function Register() {
                 <br />
                 <input
                   {
-                  ...register(`userName`,userNameValidation)
+                  ...register(`userName`, userNameValidation)
                   }
 
 
@@ -116,7 +105,7 @@ export default function Register() {
                 <label htmlFor="userPhone" className='lable-style'>Phone Number</label>
                 <br />
                 <input
-                  {...register(`phoneNumber`,phoneNumberVefication)}
+                  {...register(`phoneNumber`, phoneNumberVefication)}
 
 
                   type="tel" placeholder='Enter your phone number' className='input-style w-100' id="userPhone" />
@@ -168,10 +157,10 @@ export default function Register() {
                 {errors.confirmPassword && <span className='text-danger'>{errors.confirmPassword.message}</span>}
 
               </div> </div>
-            <div className='text-center'>            <button disabled={isSubmitted} className='btn btn-mainColor  w-50 mt-2 mt-md-3 rounded-5 text-white '>  {isSubmitted ?   <FontAwesomeIcon 
-                    icon={faCircleNotch} 
-                    size="2x" 
-                    color="white" />
+            <div className='text-center'>            <button disabled={isSubmitted} className='btn btn-mainColor  w-50 mt-2 mt-md-3 rounded-5 text-white '>  {isSubmitted ? <FontAwesomeIcon
+              icon={faCircleNotch}
+              size="2x"
+              color="white" />
               : <span>save</span>}</button>
             </div>        </div>
         </form>
