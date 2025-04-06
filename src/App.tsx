@@ -1,4 +1,3 @@
-import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AuthLayout from "./modules/Shared/AuthLayout/AuthLayout";
 import ForgetPassword from "./modules/Authentcations/ForgotPassword/ForgotPassword";
