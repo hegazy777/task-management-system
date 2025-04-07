@@ -72,6 +72,10 @@ export const changePasswordSehemaValidation = Yup.object().shape({
   confirmNewPassword: confirmNewPassword,
 });
 
+export const projectDataSehemaValidation = Yup.object().shape({
+  title: Yup.string().required("Title is required"),
+  description: Yup.string().required("Description is required"),
+});
 // export const categoryDataSehemaValidation = Yup.object().shape({
 //   name: Yup.string()
 //     .required("Categroy name is required")
