@@ -15,6 +15,7 @@ import MasterLayout from "./modules/Shared/MasterLayout/MasterLayout";
 import ResetPassword from "./modules/Authentcations/ResetPassword/ResetPassword";
 
 import "react-toastify/dist/ReactToastify.css";
+import Tasks from "./modules/Tasks/Tasks";
 function App() {
   const router = createBrowserRouter([
     {
@@ -43,10 +44,8 @@ function App() {
       errorElement: <NotFound />,
 
       children: [
-        {
-          index: true,
-          element: <Dashboard />,
-        },
+        { index: true, element: <Dashboard />},
+        { path: "tasks", element: <Tasks /> },
       ],
     },
   ]);
