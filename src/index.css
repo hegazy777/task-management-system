@@ -120,3 +120,6 @@ input {
 .css-1t8x7v1 >.ps-menu-button:hover {
   background-color: transparent !important;
 }
+.cursor-pointer{
+  cursor: pointer;
+}

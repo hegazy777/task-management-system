@@ -1,3 +1,5 @@
+import { number, string } from "yup";
+
 export const baseURL = "https://upskilling-egypt.com:3003/api/v1/";
 export const imageURL = "https://upskilling-egypt.com:3003/";
 
@@ -8,7 +10,7 @@ export const users_endpoints = {
   RESET_REQUEST: `/Users/Reset/Request`,
   RESET: `/Users/Reset`,
   GET_USER: `/Users/currentUser/`,
-  GET_ALL_USERS: `/Users/`,
+  GET_ALL_USERS:  (pageNumber :number) :string=> `/Users?pageSize=10&pageNumber=${pageNumber }` ,
   DELETE_USER: (id: number) => `/Users/${id}`,
   CHANGE_PASSWORD: `/Users/ChangePassword`,
   UPDATE_USER: `/Users/`,

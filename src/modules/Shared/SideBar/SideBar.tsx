@@ -10,7 +10,7 @@ export default function SideBar() {
   const [collapsed, setCollapsed] = useState(false);
  
   return (
-    <div className="sidebar-container" >
+    <div className="sidebar-container " >
       <Sidebar collapsed={collapsed} >
         <div className="sidebar-header" style={{ position: "relative", padding: "10px", marginBottom: "20px" }}>
           <Button
@@ -34,7 +34,7 @@ export default function SideBar() {
           </Button>
         </div>
         <Menu>
-          <MenuItem component={<Link to="/users" />}>
+          <MenuItem component={<Link to="users" />}>
             <FaUser style={{ marginRight: "10px" }} /> Users
           </MenuItem>
           <MenuItem component={<Link to="/Project" />}>
