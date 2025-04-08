@@ -17,20 +17,8 @@ import styles from "./ProjectsList.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DeleteConfirmation from "../../Shared/DeleteConfirmation/DeleteConfirmation";
 import { useNavigate } from "react-router-dom";
-type ProjectType = {
-  id: number;
-  title: string;
-  description: string;
-  creationDate: string;
-  modificationDate: string;
-  manager: ManagerType;
-};
+import { ProjectType } from "../../../interfaces/interfaces";
 
-type ManagerType = {
-  id: number;
-  userName: string;
-  imagePath: string;
-};
 export default function ProjectsList() {
   const navigate = useNavigate();
   // handle fetch logic

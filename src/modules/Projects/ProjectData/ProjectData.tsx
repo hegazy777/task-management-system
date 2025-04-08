@@ -11,11 +11,8 @@ import { projects_endpoints } from "../../../services/api/apiConfig";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 import { projectDataSehemaValidation } from "../../../services/vaildators";
+import { ProjectTypeForm } from "../../../interfaces/interfaces";
 
-type DataType = {
-  title: string;
-  description: string;
-};
 export default function ProjectData() {
   const navigate = useNavigate();
   const params = useParams();
@@ -55,7 +52,7 @@ export default function ProjectData() {
     resolver: yupResolver(projectDataSehemaValidation),
   });
 
-  const onSubmit = async (Data: DataType) => {
+  const onSubmit = async (Data: ProjectTypeForm) => {
     try {
       if (params.id) {
         await privateApiInstance.put(
