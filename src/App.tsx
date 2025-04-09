@@ -17,6 +17,7 @@ import ResetPassword from "./modules/Authentcations/ResetPassword/ResetPassword"
 import "react-toastify/dist/ReactToastify.css";
 import ProjectsList from "./modules/Projects/ProjectsList/ProjectsList";
 import ProjectData from "./modules/Projects/ProjectData/ProjectData";
+import TaskBoard from "./modules/TaskBoard/TaskBoard";
 function App() {
   const router = createBrowserRouter([
     {
@@ -57,6 +58,11 @@ function App() {
           path: "projects/:id/edit",
           element: <ProjectData />,
         },
+        {
+          path:"TaskBoard",
+          element:<TaskBoard/>
+
+        }
       ],
     },
   ]);
