@@ -4,6 +4,7 @@
   padding: 5px;
   text-align: center;
 }
+
 .handelSearhIcon {
   left: 2%;
   top: 26%;
@@ -34,6 +35,8 @@
   .top-1{
     top: 1% ;
   }
+  .show-dropdown  .btn{
+border: none !important;  }
 /* media */
 
 @media (min-width: 576px) {

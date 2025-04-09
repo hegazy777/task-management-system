@@ -1,4 +1,4 @@
-import { faArrowDown, faArrowLeft, faArrowRight, faEllipsisVertical, faFilter, faSearch, faSort } from "@fortawesome/free-solid-svg-icons";
+import { faArrowDown, faArrowLeft, faArrowRight, faEllipsisVertical, faEye, faFilter, faSearch, faSort } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./UserLIst.css"
 import { Dropdown, Table } from "react-bootstrap";
@@ -6,20 +6,28 @@ import { useEffect, useState } from "react";
 import { users_endpoints } from './../../services/api/apiConfig';
 import { privateApiInstance } from "../../services/api/apiInstance";
 import DateObject from "react-date-object";
+import UserDeatls from './../Shared/UserDeatls/UserDeatls';
+import { data } from "../../services/UserListInterFaces/InterFace";
+import { toast } from "react-toastify";
 
 export default function UserLIst() {
 
 
 
     const [getUsers, setGetUsers] = useState(null)
+    const [getUsersDeatls, setGetUsersDeatls] = useState(null)
     const [getPageNumber, setPageNumber] = useState(1)
+    const [Loader, setLoader] = useState(true)
+    useEffect(() => {
+
+        getEmployee(getPageNumber)
+    }, [])
 
     function getEmployee(pageNum: number) {
         privateApiInstance.get(users_endpoints.GET_ALL_USERS(pageNum)
         ).then((res) => {
             console.log(res.data)
             setGetUsers(res?.data)
-            setPageNumber(res?.data.pageNumber)
         }).catch((res) => {
             console.log(res)
 
@@ -28,20 +36,22 @@ export default function UserLIst() {
         })
 
     }
-    useEffect(() => {
 
-        getEmployee(getPageNumber)
-    }, [])
 
-    interface data {
-        id: number,
-        userName: string,
-        email: string | number,
-        country: | string,
-        phoneNumber: number,
-        isActivated: boolean,
-        creationDate: number
+
+    function blockUser(id: number) {
+        privateApiInstance.put(users_endpoints.UPDATE_USER(id)).then((res) => {
+            if (res.status == 200) {
+                toast.success("User Blocked !")
+                getEmployee(getPageNumber)
+
+            }
+        }).catch((res) => {
+            console.log(res)
+
+        })
     }
+
 
     function prevPage() {
 
@@ -51,7 +61,7 @@ export default function UserLIst() {
         getEmployee(getNumberOfPrevPage)
         setPageNumber(getNumberOfPrevPage)
 
-        if (getNumberOfPrevPage == 1 || getNumberOfPrevPage == 0 ||getNumberOfPrevPage == -1
+        if (getNumberOfPrevPage == 0
         ) {
             getEmployee(getUsers?.totalNumberOfPages)
             setPageNumber(getUsers?.totalNumberOfPages)
@@ -73,6 +83,29 @@ export default function UserLIst() {
             getEmployee(1)
             console.log("==")
         }
+    }
+
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+
+    function getUserDeatls(id: number): void {
+        setLoader(true)
+        console.log(id)
+        privateApiInstance.get(users_endpoints.getUser(id)).then((res) => {
+            console.log(res?.data)
+            setGetUsersDeatls(res?.data)
+            setLoader(false)
+
+
+        }).catch((res) => {
+
+
+            console.log(res)
+        })
+
     }
 
     return (
@@ -110,17 +143,19 @@ export default function UserLIst() {
                                             </label>
 
                                         </div></div>
-                                        <div className=" col-xl-2  col-lg-3 col-md-5   "><div className="btnContainer">                                <Dropdown>
-                                            <Dropdown.Toggle className="ed" variant="white" id="">
-                                                <span id="dropdown-basic"> <FontAwesomeIcon icon={faFilter} /> filter</span>
-                                            </Dropdown.Toggle>
+                                        <div className=" col-xl-2  col-lg-3 col-md-5   "><div className="btnContainer">
 
-                                            <Dropdown.Menu>
-                                                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                                                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                                                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                                            </Dropdown.Menu>
-                                        </Dropdown>
+                                            <Dropdown>
+                                                <Dropdown.Toggle className="ed" variant="white" id="">
+                                                    <span id="dropdown-basic"> <FontAwesomeIcon icon={faFilter} /> filter</span>
+                                                </Dropdown.Toggle>
+
+                                                <Dropdown.Menu>
+                                                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                                                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                                                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                                                </Dropdown.Menu>
+                                            </Dropdown>
 
 
                                         </div></div>
@@ -147,14 +182,35 @@ export default function UserLIst() {
                                                     return <tr key={user.id} className="text-center  ">
                                                         <td className="p-3">{user.userName}</td>
                                                         <td className="p-3">
-                                                            <span className={user.isActivated ? ` bg-success rounded-4 p-1  px-3 text-white` : ` bg-danger rounded-4 p-1  px-3 text-white`}>
 
-                                                                active
-                                                            </span>                                                </td>
+                                                            {user.isActivated ? <span className={` bg-success rounded-4 p-1  px-3 text-white`}>
+
+                                                                Active
+                                                            </span> : <span className={` bg-danger rounded-4 p-1  px-3 text-white`}>
+
+                                                                Not Active</span>}
+                                                        </td>
                                                         <td className="p-3">{user.phoneNumber}</td>
                                                         <td className="p-3">{user.email}</td>
                                                         <td className="p-3">{date.format()}</td>
-                                                        <td className="p-3">  <FontAwesomeIcon icon={faEllipsisVertical} /></td>
+                                                        <td className="p-3">
+                                                            <Dropdown>
+                                                                <Dropdown.Toggle className="ed border-0" variant="white" id="">
+                                                                    <span id="dropdown-basic2"> <FontAwesomeIcon icon={faEllipsisVertical} /></span>
+                                                                </Dropdown.Toggle>
+
+                                                                <Dropdown.Menu>
+                                                                    <Dropdown.Item onClick={() => blockUser(user.id)} >Block</Dropdown.Item>
+                                                                    <Dropdown.Item onClick={() => {
+                                                                        getUserDeatls(user.id);
+                                                                        handleShow()
+
+
+                                                                    }
+                                                                    } >  <FontAwesomeIcon icon={faEye} /> View</Dropdown.Item>
+                                                                </Dropdown.Menu>
+                                                            </Dropdown>
+                                                        </td>
 
                                                     </tr>
 
@@ -194,11 +250,11 @@ export default function UserLIst() {
                 </div>
 
 
-            </div>
+            </div >
 
 
-
-
+            {show ? <UserDeatls userDeatls={getUsersDeatls} show={show} handleClose={handleClose} Loader={Loader} />
+                : ""}
         </>
     )
 }
