@@ -40,7 +40,7 @@ export default function SideBar() {
           <MenuItem component={<Link to="/Project" />}>
             <FaProjectDiagram style={{ marginRight: "10px" }} /> Projects
           </MenuItem>
-          <MenuItem component={<Link to="tasks" />}>
+          <MenuItem component={<Link to="new-task" />}>
             <FaTasks style={{ marginRight: "10px" }} /> Tasks
           </MenuItem>
           <MenuItem onClick={() => logout()}>

@@ -46,7 +46,8 @@ function App() {
 
       children: [
         { index: true, element: <Dashboard />},
-        { path: "tasks", element: <Tasks /> },
+        { path: "new-task", element: <Tasks /> },
+        { path: "all-tasks", element: <AllTasks /> },
       ],
     },
   ]);
