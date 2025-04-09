@@ -124,12 +124,12 @@ export default function ProjectsList() {
         <div className="caption">
           <h3>Projects</h3>
         </div>
-        <Button variant="outline-secondary" onClick={() => navigate("new")}>
-          Add New Project
-        </Button>
-        {/* <CategoryData
-          getAllCategories={() => getAllCategories(10, currentPageNumber, name)}
-        /> */}
+
+        {isManager && (
+          <Button variant="outline-secondary" onClick={() => navigate("new")}>
+            Add New Project
+          </Button>
+        )}
       </Stack>
 
       <div className="p-5">

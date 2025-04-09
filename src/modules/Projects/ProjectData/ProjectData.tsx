@@ -5,15 +5,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { privateApiInstance } from "../../../services/api/apiInstance";
 import { projects_endpoints } from "../../../services/api/apiConfig";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 import { projectDataSehemaValidation } from "../../../services/vaildators";
 import { ProjectTypeForm } from "../../../interfaces/interfaces";
+import { AuthContext } from "../../../contexts/AuthContext";
 
 export default function ProjectData() {
+  const { isManager } = useContext(AuthContext);
   const navigate = useNavigate();
   const params = useParams();
   const onNavigate = () => {
@@ -72,7 +74,7 @@ export default function ProjectData() {
       onNavigate();
     }
   };
-
+  if (!isManager) navigate("dashboard");
   return (
     <div className={styles.overlayBg}>
       <Stack
