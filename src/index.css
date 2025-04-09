@@ -4,12 +4,10 @@
   box-sizing: border-box;
 }
 html,
-body {
+body,
+#root {
   height: 100%;
   width: 100%;
-
-  
-
 }
 .auth-container {
   height: 100vh;
@@ -80,7 +78,7 @@ input {
   background-image: url("../src/assets/loginbg.png");
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: cover; 
+  background-size: cover;
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -97,16 +95,15 @@ input {
   background-image: url("../src/assets/home-bg.png");
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: cover; 
-  height: 100vh; 
+  background-size: cover;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.sidebar-container{
-  background-color: #0E382F!important;
-  
+.sidebar-container {
+  background-color: #0e382f !important;
 }
 
 .css-dip3t8 {
@@ -117,6 +114,6 @@ input {
   background-color: rgb(14 56 47) !important;
   color: #fff;
 }
-.css-1t8x7v1 >.ps-menu-button:hover {
+.css-1t8x7v1 > .ps-menu-button:hover {
   background-color: transparent !important;
 }

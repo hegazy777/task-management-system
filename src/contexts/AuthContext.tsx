@@ -3,35 +3,12 @@ import { users_endpoints } from "../services/api/apiConfig";
 import { createContext, useEffect, useState, ReactNode } from "react";
 import { useLocalStorage } from "./useLocalStorge";
 import { Spinner } from "react-bootstrap";
-
-interface UserGroup {
-  id: number;
-  name: string;
-  creationDate: string;
-  modificationDate: string;
-}
-
-interface User {
-  id: number;
-  userName: string;
-  email: string;
-  country: string;
-  phoneNumber: string;
-  imagePath: string;
-  isActivated: boolean;
-  group: UserGroup;
-  creationDate: string;
-  modificationDate: string;
-}
-
-export type AuthContextType = {
-  token: string | null;
-  user: User | null;
-  setToken: (newValue: string) => void;
-  logout: () => void;
-  isAdmin: boolean;
-};
-
+import { jwtDecode } from "jwt-decode";
+import {
+  AuthContextType,
+  CustomJwtPayload,
+  User,
+} from "../interfaces/interfaces";
 // eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext<AuthContextType>(
   {} as AuthContextType
@@ -68,7 +45,10 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(null);
   };
 
-  const isAdmin = user ? user.group.name === "SuperAdmin" : false;
+  const decodedToken = token ? (jwtDecode(token) as CustomJwtPayload) : "";
+  const isManager = decodedToken
+    ? decodedToken?.userGroup === "Manager"
+    : false;
 
   return (
     <AuthContext.Provider
@@ -77,7 +57,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         setToken,
         user,
         logout,
-        isAdmin,
+        isManager,
       }}
     >
       {loading ? (
