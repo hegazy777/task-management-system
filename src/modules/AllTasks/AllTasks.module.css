@@ -1,11 +1,17 @@
-
 .allTasks {
-    background-color: #F5F5F5;
-    width: 100%;
+  background-color: #f5f5f5;
+  width: 100%;
 }
 
 .tasksContainer {
-    border-radius: 8px;
-    background-color: #fff;
+  border-radius: 8px;
+  background-color: #fff;
 }
 
+.table > :not(caption) > * > * {
+  padding: 1.25rem !important;
+}
+th {
+  background-color: rgba(160, 177, 174, 0.9) !important;
+  color: white !important;
+}
