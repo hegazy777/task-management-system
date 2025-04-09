@@ -17,6 +17,8 @@ import ResetPassword from "./modules/Authentcations/ResetPassword/ResetPassword"
 import "react-toastify/dist/ReactToastify.css";
 import ProjectsList from "./modules/Projects/ProjectsList/ProjectsList";
 import ProjectData from "./modules/Projects/ProjectData/ProjectData";
+import Tasks from "./modules/Tasks/Tasks";
+import AllTasks from "./modules/AllTasks/AllTasks";
 function App() {
   const router = createBrowserRouter([
     {
