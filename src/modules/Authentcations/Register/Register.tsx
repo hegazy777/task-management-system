@@ -1,8 +1,8 @@
 import AuthTitle from './../../Shared/AuthTitle/AuthTitle';
-import "./Regester.css"
+import styles from "./Regester.module.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { useForm } from 'react-hook-form';
 import { apiInstance } from '../../../services/api/apiInstance';
@@ -12,17 +12,15 @@ import { useNavigate } from 'react-router-dom';
 import { countryVerfication, emailVefication, passwValidation } from '../../../services/vaildators';
 import { userNameValidation, phoneNumberVefication } from './../../../services/vaildators';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
-import { userData } from './../../../services/interFace';
 import usePasswordHook from '../../../Hooks/usePasswordHook';
-import useConfirmPasswoedHook from '../../../Hooks/useConfirmPasswoedHook';
+import { userData } from '../../Shared/AuthInterfaces/InterFace';
 
 
 export default function Register() {
-
+  
   const navigate = useNavigate()
 
-  let { changeTogle, eyeTogel } = useConfirmPasswoedHook()
-  let { changeTogle2, eyeTogel2 } = usePasswordHook()
+     let {changeTogle,changeTogle2,eyeTogel,eyeTogel2}=  usePasswordHook()
 
 
   const { formState: { errors, isSubmitted }, register, trigger, watch, handleSubmit } = useForm({ mode: `all` })
@@ -51,7 +49,7 @@ export default function Register() {
   return <>
 
 
-    <div className="rigester-conntainer rounded-4  p-lg-5 p-1 ">
+    <div className={`${styles.rigesterConntainer} rounded-4  p-lg-5 p-1 `}>
 
       <div className=' container-md'>
         <AuthTitle title={"Create New Account"} />
@@ -61,7 +59,7 @@ export default function Register() {
 
             <div className='col-lg-6  '>
               <div className='my-1'>
-                <label htmlFor="userName" className='lable-style'>User Name</label>
+                <label htmlFor="userName" className={styles.lableStyle}>User Name</label>
                 <br />
                 <input
                   {
@@ -69,7 +67,7 @@ export default function Register() {
                   }
 
 
-                  type="text" placeholder='Enter your name' className='input-style w-100 ' id="userName" />
+                  type="text" placeholder='Enter your name' className={`${styles.inputStyle}  w-100`} id="userName" />
 
                 {errors.userName && <span className='text-danger'>{errors.userName.message}</span>}
               </div>
@@ -77,23 +75,23 @@ export default function Register() {
             <div className='col-lg-6'>
 
               <div className='my-1'>
-                <label htmlFor="userEmail" className='lable-style '>E-mail</label>
+                <label htmlFor="userEmail"  className={styles.lableStyle}>E-mail</label>
                 <br />
                 <input
                   {...register(`email`, emailVefication)}
 
-                  type="email" placeholder='Enter your E-mail' className='input-style w-100' id="userEmail" />
+                  type="email" placeholder='Enter your E-mail' className={`${styles.inputStyle}  w-100`} id="userEmail" />
                 {errors.email && <span className='text-danger'>{errors.email.message}</span>}
               </div>
             </div>
             <div className='col-lg-6'>
-              <div className='my-1'>    <label htmlFor="userCountry" className='lable-style'>Country</label>
+              <div className='my-1'>    <label htmlFor="userCountry"  className={styles.lableStyle}>Country</label>
                 <br />
                 <input
                   {...register(`country`, countryVerfication)}
 
 
-                  type="text" placeholder='Enter your country' className='input-style w-100' id="userCountry" />
+                  type="text" placeholder='Enter your country' className={`${styles.inputStyle}  w-100`} id="userCountry" />
                 {
                   errors.country && <span className='text-danger'>{errors.country.message}</span>
                 }
@@ -103,26 +101,26 @@ export default function Register() {
             </div>
             <div className='col-lg-6'>
               <div className='my-1'>
-                <label htmlFor="userPhone" className='lable-style'>Phone Number</label>
+                <label htmlFor="userPhone"  className={styles.lableStyle}>Phone Number</label>
                 <br />
                 <input
                   {...register(`phoneNumber`, phoneNumberVefication)}
 
 
-                  type="tel" placeholder='Enter your phone number' className='input-style w-100' id="userPhone" />
+                  type="tel" placeholder='Enter your phone number' className={`${styles.inputStyle}  w-100`} id="userPhone" />
                 {errors.phoneNumber && <span className='text-danger'>{errors.phoneNumber.message}</span>}
               </div>
             </div>
             <div className='col-lg-6'>
-              <div className='my-1 position-relative'>   <label htmlFor="userPass" className='lable-style'>Password</label>
+              <div className='my-1 position-relative'>   <label htmlFor="userPass"  className={styles.lableStyle}>Password</label>
                 <br />
                 <input
                   {...register(`password`, passwValidation)}
 
 
-                  type={eyeTogel2 ? `text` : `password`} placeholder='Enter your Password' className='input-style w-100 ' id="userPass" />
+                  type={eyeTogel2 ? `text` : `password`} placeholder='Enter your Password'className={`${styles.inputStyle}  w-100`} id="userPass" />
                 <span
-                  onClick={changeTogle2} className=' handle-eye position-absolute'>
+                  onClick={changeTogle2} className={`${styles.handleEye} position-absolute  ` }>
                   <FontAwesomeIcon
                     color="white"
                     icon={eyeTogel2 ? faEye : faEyeSlash}
@@ -135,7 +133,7 @@ export default function Register() {
             </div>
             <div className='col-lg-6'>
               <div className='position-relative'>
-                <label htmlFor="userConfirm" className='lable-style'>Confirm Password</label>
+                <label htmlFor="userConfirm"  className={styles.lableStyle}>Confirm Password</label>
                 <br />
                 <input
 
@@ -146,9 +144,9 @@ export default function Register() {
                       message: `Minimum eight characters and add some of #?!@$%^&*._-`,
                     },
                     validate: (confirmPassword) => confirmPassword === watch("password") || `confirmPassword not match the pasword`
-                  })} type={eyeTogel ? `text` : `password`} placeholder='Confirm New Password' className='input-style w-100  mt-1 ' id="userConfirm" />
+                  })} type={eyeTogel ? `text` : `password`} placeholder='Confirm New Password' className={`${styles.inputStyle}  mt-1 w-100`} id="userConfirm" />
 
-                <span onClick={changeTogle} className=' handle-eye position-absolute '>
+                <span onClick={changeTogle} className={`${styles.handleEye} position-absolute  ` }>
                   <FontAwesomeIcon
                     color="white"
                     icon={eyeTogel ? faEye : faEyeSlash}
@@ -158,7 +156,7 @@ export default function Register() {
                 {errors.confirmPassword && <span className='text-danger'>{errors.confirmPassword.message}</span>}
 
               </div> </div>
-            <div className='text-center'>            <button disabled={isSubmitted} className='btn btn-mainColor  w-50 mt-2 mt-md-3 rounded-5 text-white '>  {isSubmitted ? <FontAwesomeIcon
+            <div className='text-center'>            <button disabled={isSubmitted} className={`${styles.btnMainColor} btn  w-50 mt-2 mt-md-3 rounded-5 text-white `}>  {isSubmitted ? <FontAwesomeIcon
               icon={faCircleNotch}
               size="2x"
               color="white" />
