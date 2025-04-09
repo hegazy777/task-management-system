@@ -7,3 +7,8 @@ export  interface userData {
     confirmPassword: string | number
 
   }
+  export  interface userDataVerfiy {
+      email: string,
+      code: string,
+  
+    }

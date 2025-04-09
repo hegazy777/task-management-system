@@ -9,20 +9,17 @@ import { users_endpoints } from './../../../services/api/apiConfig';
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
+import {  userDataVerfiy } from './../../Shared/AuthInterfaces/InterFace';
 
 
 export default function VerifyAccount() {
   const navigate = useNavigate()
   let loction = useLocation()
   console.log(loction.state)
-  interface userData {
-    email: string,
-    code: string,
 
-  }
   const { formState: { errors, isSubmitted }, register, handleSubmit } = useForm({ defaultValues: { email: loction?.state } })
 
-  function sendData(data: userData): void {
+  function sendData(data: userDataVerfiy): void {
     console.log(data)
     apiInstance.put(users_endpoints.VERIFY, data).then((res) => {
 
