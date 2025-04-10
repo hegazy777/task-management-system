@@ -7,6 +7,7 @@ const apiInstance = axios.create({
 
 const privateApiInstance = axios.create({
   baseURL,
+   
 });
 
 privateApiInstance.interceptors.request.use(

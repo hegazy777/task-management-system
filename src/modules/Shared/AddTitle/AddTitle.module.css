@@ -1,0 +1,25 @@
+
+.addTitle {
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.addTitle h3 {
+    color: #4F4F4F;
+    font-size: 28px;
+    font-weight: 500;
+}
+
+.addTitle .add {
+    text-decoration: none;
+    border: none;
+    border-radius: 30px;
+    padding: 12px 28px;
+    background-color: #EF9B28;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}

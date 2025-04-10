@@ -55,7 +55,6 @@ export default function Login() {
 
       <form
         className="authForm px-4 mt-4"
-        role="form"
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="input-group mb-1">
