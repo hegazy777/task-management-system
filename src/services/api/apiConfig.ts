@@ -21,3 +21,11 @@ export const projects_endpoints = {
   DELETE_PROJECT: (id: number) => `/Project/${id}`,
   ADD_PROJECT: `/Project`,
 };
+
+export const tasks_endpoints = {
+  GET_ALL_TASKS: `/Task/manager`,
+  GET_TASK: (id: number) => `/Task/${id}`,
+  UPDATE_TASK: (id: number) => `/Task/${id}`,
+  DELETE_TASK: (id: number) => `/Task/${id}`,
+  ADD_TASK: `/Task`,
+};

@@ -11,6 +11,9 @@ body {
   
 
 }
+:root{
+  --mainColor : rgba(239, 155, 40, 1);
+}
 .auth-container {
   height: 100vh;
   width: 100vw;
@@ -48,7 +51,7 @@ input:focus {
   /* border: none !important; */
 }
 
-input {
+input, textarea, select {
   outline: none;
   box-shadow: none;
   border: none;
@@ -85,6 +88,7 @@ input {
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow-y: scroll;
 }
 
 .auth-content {
@@ -106,6 +110,7 @@ input {
 
 .sidebar-container{
   background-color: #0E382F!important;
+  height: 100dvh;
   
 }
 
@@ -120,3 +125,18 @@ input {
 .css-1t8x7v1 >.ps-menu-button:hover {
   background-color: transparent !important;
 }
+
+/* media qury */
+
+
+/* @media (min-width: 576px) {  }
+
+@media (min-width: 768px) { 
+ 
+ }
+
+@media (min-width: 992px) {  }
+
+@media (min-width: 1200px) {  }
+
+@media (min-width: 1400px) {  } */
