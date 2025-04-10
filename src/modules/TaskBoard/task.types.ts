@@ -19,5 +19,26 @@ export interface TaskResponse {
     modificationDate: string;
   }
   
-
+  // export interface Project {
+  //   id: number;
+  //   title: string;
+  //   description: string;
+  //   creationDate: string;
+  //   modificationDate: string;
+  // }
+  
+  // export interface Employee {
+  //   id: number;
+  //   userName: string;
+  //   imagePath: string | null;
+  //   email: string;
+  //   password: string;
+  //   country: string;
+  //   phoneNumber: string;
+  //   verificationCode: string;
+  //   isVerified: boolean;
+  //   isActivated: boolean;
+  //   creationDate: string;
+  //   modificationDate: string;
+  // }
   
