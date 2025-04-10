@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./TaskBoard.module.css";
 import axios from "axios";
-import { Task, TaskResponse, TaskStatus } from "./task.types";
+import { Task, TaskResponse, TaskStatus } from "../../interfaces/TaskBoard";
 import { toast } from 'react-toastify';
 export default function TaskBoard() {
   const [tasks, setTasks] = useState<Task[]>([]);
