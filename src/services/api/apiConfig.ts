@@ -10,6 +10,7 @@ export const users_endpoints = {
   RESET: `/Users/Reset`,
   GET_USER: `/Users/currentUser/`,
   GET_ALL_USERS: (pageNumber: number): string => `/Users?pageSize=10&pageNumber=${pageNumber}`,
+  getFilterUser: (prametrName:string |null ,searchInput:string|null   ,pageNumber:number )  => `/Users/?${prametrName}=${searchInput}&pageSize=10&pageNumber=${pageNumber}'`,
   getUser: (id: number) => `/Users/${id}`,
   CHANGE_PASSWORD: `/Users/ChangePassword`,
   UPDATE_USER: (id: number) => `/Users/${id}`,

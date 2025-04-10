@@ -6,7 +6,7 @@
 }
 
 .handelSearhIcon {
-  left: 2%;
+  left: 6%;
   top: 26%;
   cursor: pointer;
 }
@@ -35,8 +35,18 @@
   .top-1{
     top: 1% ;
   }
+  .led{
+    left: 45%;
+  }
+
+  .top{
+    top: 72%;
+  }
   .show-dropdown  .btn{
-border: none !important;  }
+border: none !important
+;  }
+
+
 /* media */
 
 @media (min-width: 576px) {
@@ -47,7 +57,7 @@ border: none !important;  }
 
 @media (min-width: 768px) {
   .handelSearhIcon {
-    left: 10%;
+    left: 7%;
     top: 26%;
     cursor: pointer;
   }

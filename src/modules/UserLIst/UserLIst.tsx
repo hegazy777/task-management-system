@@ -7,7 +7,7 @@ import { users_endpoints } from './../../services/api/apiConfig';
 import { privateApiInstance } from "../../services/api/apiInstance";
 import DateObject from "react-date-object";
 import UserDeatls from './../Shared/UserDeatls/UserDeatls';
-import { data } from "../../services/UserListInterFaces/InterFace";
+import { data, User } from "../../services/UserListInterFaces/InterFace";
 import { toast } from "react-toastify";
 
 export default function UserLIst() {
@@ -18,6 +18,11 @@ export default function UserLIst() {
     const [getUsersDeatls, setGetUsersDeatls] = useState(null)
     const [getPageNumber, setPageNumber] = useState(1)
     const [Loader, setLoader] = useState(true)
+    const [show, setShow] = useState(false);
+    const [valueInput, setvalueInput] = useState(null);
+    const [searhedData, setsearhedData] = useState(null);
+
+
     useEffect(() => {
 
         getEmployee(getPageNumber)
@@ -85,7 +90,6 @@ export default function UserLIst() {
         }
     }
 
-    const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -105,6 +109,26 @@ export default function UserLIst() {
 
             console.log(res)
         })
+
+    }
+    function getsearchValue(e: any) {
+        console.log(getPageNumber)
+
+        privateApiInstance.get(users_endpoints.getFilterUser(valueInput, e.target.value, getPageNumber)).then((res) => {
+            console.log(res.data.data)
+            setsearhedData(res?.data)
+        }).catch((res) => {
+            console.log(res)
+
+        })
+
+
+    }
+    function getManagerSelectFilter(e: any) {
+        console.log(e)
+        setvalueInput(e)
+
+
 
     }
 
@@ -136,24 +160,27 @@ export default function UserLIst() {
 
 
 
-                                        <div className="  col-xl-2 col-lg-3  col-md-5   mb-2 mb-md-0 ">       <div className=" position-relative ">
-                                            <input type="text" className="edit-search" placeholder="Search Fleets" id="icon" />
+                                        <div className="  col-xl-3    col-lg-3  col-md-5   mb-2 mb-md-0 ">       <div className=" position-relative ">
+                                            <input onKeyUp={getsearchValue} type="text" className="edit-search" placeholder="Search Fleets" id="iconSearh" />
 
-                                            <label htmlFor="icon"><FontAwesomeIcon icon={faSearch} className="position-absolute handelSearhIcon" color="gray" />
+                                            <label htmlFor="iconSearh">  <FontAwesomeIcon icon={faSearch} className="position-absolute handelSearhIcon" color="gray" />
                                             </label>
 
                                         </div></div>
-                                        <div className=" col-xl-2  col-lg-3 col-md-5   "><div className="btnContainer">
+                                        <div className=" col-xl-2    col-lg-3 col-md-5   "><div className="btnContainer">
 
-                                            <Dropdown>
+                                            <Dropdown onSelect={(e) => {
+                                                getManagerSelectFilter(e)
+                                            }
+                                            }>
                                                 <Dropdown.Toggle className="ed" variant="white" id="">
                                                     <span id="dropdown-basic"> <FontAwesomeIcon icon={faFilter} /> filter</span>
                                                 </Dropdown.Toggle>
 
-                                                <Dropdown.Menu>
-                                                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                                                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                                                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                                                <Dropdown.Menu  >
+                                                    <Dropdown.Item eventKey={"userName"}  >userName</Dropdown.Item>
+                                                    <Dropdown.Item eventKey={"email"}>email</Dropdown.Item>
+                                                    <Dropdown.Item eventKey={"country"}>country</Dropdown.Item>
                                                 </Dropdown.Menu>
                                             </Dropdown>
 
@@ -170,28 +197,26 @@ export default function UserLIst() {
                                                     <th>Phone Number <FontAwesomeIcon icon={faSort} /> </th>
                                                     <th >Email <FontAwesomeIcon icon={faSort} /> </th>
                                                     <th>Date Created <FontAwesomeIcon icon={faSort} /> </th>
-                                                    <th>Action  </th>
-
-                                                </tr>
+                                                    <th>Action  </th></tr>
                                             </thead>
-                                            <tbody>
 
-                                                {getUsers?.data.map((user: data) => {
-                                                    let date = new DateObject(user.creationDate);
+                                            {searhedData ? <tbody className={  searhedData.data.length == 1||  searhedData.data.length == 2  || searhedData.data.length == 3 ||searhedData.data.length == 0 ? `vh-100` : ``}>     {searhedData.data.length > 0 ?
+                                                searhedData.data.map((searh: User) => {
+                                                    let date = new DateObject(searh.creationDate);
 
-                                                    return <tr key={user.id} className="text-center  ">
-                                                        <td className="p-3">{user.userName}</td>
+                                                    return <tr key={searh.id} className="text-center  ">
+                                                        <td className="p-3">{searh.userName}</td>
                                                         <td className="p-3">
 
-                                                            {user.isActivated ? <span className={` bg-success rounded-4 p-1  px-3 text-white`}>
+                                                            {searh.isActivated ? <span className={` bg-success rounded-4 p-1  px-3 text-white`}>
 
                                                                 Active
                                                             </span> : <span className={` bg-danger rounded-4 p-1  px-3 text-white`}>
 
                                                                 Not Active</span>}
                                                         </td>
-                                                        <td className="p-3">{user.phoneNumber}</td>
-                                                        <td className="p-3">{user.email}</td>
+                                                        <td className="p-3">{searh.phoneNumber}</td>
+                                                        <td className="p-3">{searh.email}</td>
                                                         <td className="p-3">{date.format()}</td>
                                                         <td className="p-3">
                                                             <Dropdown>
@@ -200,24 +225,63 @@ export default function UserLIst() {
                                                                 </Dropdown.Toggle>
 
                                                                 <Dropdown.Menu>
-                                                                    <Dropdown.Item onClick={() => blockUser(user.id)} >Block</Dropdown.Item>
+                                                                    <Dropdown.Item onClick={() => blockUser(searh.id)} >Block</Dropdown.Item>
                                                                     <Dropdown.Item onClick={() => {
-                                                                        getUserDeatls(user.id);
+                                                                        getUserDeatls(searh.id);
                                                                         handleShow()
 
 
                                                                     }
                                                                     } >  <FontAwesomeIcon icon={faEye} /> View</Dropdown.Item>
                                                                 </Dropdown.Menu>
-                                                            </Dropdown>
-                                                        </td>
+                                                            </Dropdown></td></tr>
+                                                })
 
-                                                    </tr>
+                                                : <span className="position-absolute top led h1 " > no data avalible</span>}     </tbody> : <>
+                                                <tbody>
+                                                    {getUsers?.data.map((user: data) => {
+                                                        let date = new DateObject(user.creationDate);
 
-                                                })}
+                                                        return <tr key={user.id} className="text-center  ">
+                                                            <td className="p-3">{user.userName}</td>
+                                                            <td className="p-3">
+
+                                                                {user.isActivated ? <span className={` bg-success rounded-4 p-1  px-3 text-white`}>
+
+                                                                    Active
+                                                                </span> : <span className={` bg-danger rounded-4 p-1  px-3 text-white`}>
+
+                                                                    Not Active</span>}
+                                                            </td>
+                                                            <td className="p-3">{user.phoneNumber}</td>
+                                                            <td className="p-3">{user.email}</td>
+                                                            <td className="p-3">{date.format()}</td>
+                                                            <td className="p-3">
+                                                                <Dropdown>
+                                                                    <Dropdown.Toggle className="ed border-0" variant="white" id="">
+                                                                        <span id="dropdown-basic2"> <FontAwesomeIcon icon={faEllipsisVertical} /></span>
+                                                                    </Dropdown.Toggle>
+
+                                                                    <Dropdown.Menu>
+                                                                        <Dropdown.Item onClick={() => blockUser(user.id)} >Block</Dropdown.Item>
+                                                                        <Dropdown.Item onClick={() => {
+                                                                            getUserDeatls(user.id);
+                                                                            handleShow()
 
 
-                                            </tbody>
+                                                                        }
+                                                                        } >  <FontAwesomeIcon icon={faEye} /> View</Dropdown.Item>
+                                                                    </Dropdown.Menu>
+                                                                </Dropdown></td></tr>
+
+                                                    })}
+                                                </tbody> </>}
+
+
+
+
+
+
                                         </Table>
                                     </div>
 
@@ -254,7 +318,8 @@ export default function UserLIst() {
 
 
             {show ? <UserDeatls userDeatls={getUsersDeatls} show={show} handleClose={handleClose} Loader={Loader} />
-                : ""}
+                : ""
+            }
         </>
     )
 }
