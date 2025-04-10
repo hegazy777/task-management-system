@@ -43,6 +43,9 @@ export default function SideBar() {
           <MenuItem component={<Link to="new-task" />}>
             <FaTasks style={{ marginRight: "10px" }} /> Tasks
           </MenuItem>
+          <MenuItem component={<Link to="TaskBoard" />}>
+            <FaTasks style={{ marginRight: "10px" }} /> Task Board
+          </MenuItem>
           <MenuItem onClick={() => logout()}>
             <FaTasks style={{ marginRight: "10px" }} /> 
             LogOut
