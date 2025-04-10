@@ -1,0 +1,22 @@
+.verfiyContainer{
+    background-color: rgba(49, 89, 81, 0.9);
+}
+.lableStyle {
+    color: var(--mainColor);
+    font-size: 12px;
+    line-height: 22px;
+    font-weight: 400px;
+  }
+  .inputStyle {
+    background-color: transparent;
+    border-bottom: 0.3px solid rgba(255, 255, 255, 1);
+    padding-bottom: 5px;
+    color: white;
+  }
+  .btnMainColor{
+    background-color: var(--mainColor) !important;
+}
+.inputStyle::placeholder {
+    color: white;
+    font-size: 15px;
+  }

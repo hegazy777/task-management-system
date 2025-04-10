@@ -98,3 +98,56 @@ export const projectDataSehemaValidation = Yup.object().shape({
 //   profileImage: Yup.string(),
 //   confirmPassword: newPassword,
 // });
+
+// register 
+export const emailVefication = {
+  required: `email is requird`,
+  pattern: {
+    value:
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+    message: `must be valid email`,
+  },
+}
+
+export const userNameValidation = {
+
+  required: `name is required`,
+  pattern: {
+    value: /^[A-Za-z][A-Za-z0-9]{2,}[0-9]$/,
+    message: ` Must start with letters, end with numbers, be 4+ chars, no spaces `
+  }
+}
+export const countryVerfication ={
+  required: "country is requird",
+  pattern: {
+    value: /^[A-Z][a-zA-Z\s]*$/,
+    message: `Country must start with a capital letter and contain only letters`,
+  }
+
+}
+export const phoneNumberVefication =  {
+  required: "phoneNumber  is requird",
+  pattern: {
+    value: /^01[0125][0-9]{8}$/,
+    message: `must be egyption Number`,
+  }
+
+}
+export const passwValidation ={
+  required: " password is requird",
+  pattern: {
+    value: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+    message: `Minimum eight characters and add some of #?!@$%^&*._-`,
+  }
+}
+
+//verify-account
+export const verfiVerfication =  {
+  required: " OTP is requird",
+
+  pattern:{
+    value:/^[A-Za-z0-9]+$/,
+    message:"please enter the code we sent"
+  }
+              }
+                
