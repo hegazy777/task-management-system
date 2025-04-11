@@ -21,6 +21,9 @@ import AllTasks from "./modules/AllTasks/AllTasks";
 import ProjectsList from "./modules/Projects/ProjectsList/ProjectsList";
 import ProjectData from "./modules/Projects/ProjectData/ProjectData";
 
+import UserLIst from './modules/UserLIst/UserLIst';
+
+
 import TaskBoard from "./modules/TaskBoard/TaskBoard";
 
 
@@ -68,9 +71,11 @@ function App() {
           element: <ProjectData />,
         },
         {
+          path: "users",
+          element: <UserLIst />,
+        },
           path:"TaskBoard",
           element:<TaskBoard/>
-
         }
       ],
     },

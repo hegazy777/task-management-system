@@ -17,6 +17,7 @@ export default function SideBar() {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
+
     <div className="sidebar-container">
       <Sidebar collapsed={collapsed}>
         <div
@@ -48,8 +49,12 @@ export default function SideBar() {
           </Button>
         </div>
         <Menu>
+          <MenuItem component={<Link to="users" />}>
+            <FaUser style={{ marginRight: "10px" }} /> Users
+
           <MenuItem component={<Link to="" />}>
             <FaHome style={{ marginRight: "10px" }} /> Home
+
           </MenuItem>
           {isManager && (
             <MenuItem component={<Link to="users" />}>
