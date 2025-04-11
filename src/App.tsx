@@ -73,7 +73,7 @@ function App() {
         {
           path: "users",
           element: <UserLIst />,
-        },
+        },{
           path:"TaskBoard",
           element:<TaskBoard/>
         }
