@@ -51,9 +51,7 @@ export default function SideBar() {
           <MenuItem component={<Link to="" />}>
             <FaHome style={{ marginRight: "10px" }} /> Home
           </MenuItem>
-          <MenuItem component={<Link to="users" />}>
-            <FaUser style={{ marginRight: "10px" }} /> Users
-          </MenuItem>
+
           {isManager && (
             <MenuItem component={<Link to="users" />}>
               <FaUser style={{ marginRight: "10px" }} /> Users
