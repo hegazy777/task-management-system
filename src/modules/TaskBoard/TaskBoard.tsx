@@ -4,7 +4,13 @@ import axios from "axios";
 import { Task, TaskResponse, TaskStatus } from "../../interfaces/TaskBoard";
 import { toast } from 'react-toastify';
 export default function TaskBoard() {
+
+
   const [tasks, setTasks] = useState<Task[]>([]);
+
+
+
+
 
   const fetchTasks = async () => {
     const token = localStorage.getItem("token");
@@ -58,15 +64,15 @@ export default function TaskBoard() {
     <div className={styles.container}>
       <h1 className={styles.title}>Task Board</h1>
       <div className={styles.columns}>
-        <Column title="ToDo" tasks={todoTasks} onDropTask={updateTaskStatus} />
-        <Column title="InProgress" tasks={inProgressTasks} onDropTask={updateTaskStatus}/>
-        <Column title="Done" tasks={doneTasks} onDropTask={updateTaskStatus} />
+        <Column title="ToDo" tasks={todoTasks} onDropTask={updateTaskStatus}  />
+        <Column title="InProgress" tasks={inProgressTasks} onDropTask={updateTaskStatus}  />
+        <Column title="Done" tasks={doneTasks} onDropTask={updateTaskStatus}  />
       </div>
     </div>
   );
 }
 
-function Column({title,tasks,onDropTask,}: {title: TaskStatus;tasks: Task[];onDropTask: (taskId: number, newStatus: TaskStatus) => void;}) 
+function Column({title,tasks,onDropTask}: { title: TaskStatus;tasks: Task[];onDropTask: (taskId: number, newStatus: TaskStatus) => void;}) 
 {
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();

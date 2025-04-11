@@ -25,6 +25,7 @@ import UserLIst from "./modules/UserLIst/UserLIst";
 
 import TaskBoard from "./modules/TaskBoard/TaskBoard";
 
+import '../src/modules/Shared/DarkMode/DarkMode.css';
 function App() {
   const router = createBrowserRouter([
     {

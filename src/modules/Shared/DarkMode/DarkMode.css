@@ -1,0 +1,53 @@
+
+:root {
+    --toggle-color: #ccc;
+    --dtoggle-color: #fff;
+  }
+  body.dark-mode {
+    --toggle-color: #333;
+    --dtoggle-color: #fff;
+  }
+.toggleContainer {
+    top: 2em;
+    right: 2em;
+  }
+  
+  .toggle {
+    visibility: hidden;
+  }
+  
+  .toggle + label {
+    display: flex;
+    align-items: center;
+    font-size: 1.5em;
+    cursor: pointer;
+    border-radius: 1em;
+    position: relative;
+  }
+  
+  .toggle + label::before {
+    content: "";
+    height: 1em;
+    width: 2em;
+    border-radius: 1em;
+    margin-right: 0.5em;
+    background-color: var(--toggle-color);
+    transition: background-color 0.3s;
+  }
+  
+  .toggle + label::after {
+    content: "";
+    height: 0.8em;
+    width: 0.8em;
+    border-radius: 1em;
+    background-color: var(--dtoggle-color);
+    position: absolute;
+    left: 0.2em;
+    transition: transform 0.3s;
+  }
+  
+  /* Move toggle circle when checked */
+  .toggle:checked + label::after {
+    transform: translateX(1em);
+  }
+ 

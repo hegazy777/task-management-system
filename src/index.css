@@ -109,7 +109,7 @@ input, textarea, select {
 
 .sidebar-container{
   background-color: #0E382F!important;
-  height: 100dvh;
+
   
 }
 
@@ -128,19 +128,29 @@ input, textarea, select {
   cursor: pointer;
 }
 
+body.dark-mode {
+  background-color: #121212;
+}
 
+body.dark-mode .navbar {
+  background-color: #1e1e1e !important;
+}
 
-/* media qury */
+body.dark-mode .dropdown-menu {
+  background-color: #2a2a2a;
+  color: #ffffff;
+}
 
+body.dark-mode .dropdown-item {
+  color: #ffffff;
+}
+body.dark-mode .user {
+  color: #ffffff;
+}
+body.dark-mode .css-dip3t8{
+  background-color: #121212 !important;
+}
 
-/* @media (min-width: 576px) {  }
-
-@media (min-width: 768px) { 
- 
- }
-
-@media (min-width: 992px) {  }
-
-@media (min-width: 1200px) {  }
-
-@media (min-width: 1400px) {  } */
+body.dark-mode .sidebar-container{
+  background-color: #121212 !important;
+}
