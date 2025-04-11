@@ -61,14 +61,11 @@ export default function SideBar() {
           <MenuItem component={<Link to="projects" />}>
             <FaProjectDiagram style={{ marginRight: "10px" }} /> Projects
           </MenuItem>
-
-          <MenuItem component={<Link to="all-tasks" />}>
-            <FaTasks style={{ marginRight: "10px" }} /> Tasks
-          </MenuItem>
-
-          {/* <MenuItem component={<Link to="new-task" />}>
-            <FaTasks style={{ marginRight: "10px" }} /> Tasks
-          </MenuItem> */}
+          {isManager && (
+            <MenuItem component={<Link to="all-tasks" />}>
+              <FaTasks style={{ marginRight: "10px" }} /> Tasks
+            </MenuItem>
+          )}
           <MenuItem component={<Link to="TaskBoard" />}>
             <FaTasks style={{ marginRight: "10px" }} /> Task Board
           </MenuItem>
