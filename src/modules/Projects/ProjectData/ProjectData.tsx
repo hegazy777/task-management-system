@@ -5,32 +5,31 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { privateApiInstance } from "../../../services/api/apiInstance";
 import { projects_endpoints } from "../../../services/api/apiConfig";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 import { projectDataSehemaValidation } from "../../../services/vaildators";
+import { ProjectTypeForm } from "../../../interfaces/interfaces";
+import { AuthContext } from "../../../contexts/AuthContext";
 
-type DataType = {
-  title: string;
-  description: string;
-};
 export default function ProjectData() {
+  const { isManager } = useContext(AuthContext);
   const navigate = useNavigate();
   const params = useParams();
   const onNavigate = () => {
     navigate("/dashboard/projects");
   };
-  const [{ title, description }, setRecipeData] = useState({
+  const [{ title, description }, setProjectData] = useState({
     title: "",
     description: "",
   });
-  const getRecipeData = async (id: number) => {
+  const getProjectData = async (id: number) => {
     const response = await privateApiInstance.get(
       projects_endpoints.GET_PROJECT(id)
     );
-    setRecipeData({
+    setProjectData({
       title: response.data.title,
       description: response.data.description,
     });
@@ -38,7 +37,7 @@ export default function ProjectData() {
 
   useEffect(() => {
     if (params.id) {
-      getRecipeData(Number(params.id));
+      getProjectData(Number(params.id));
     }
   }, [params.id]);
   const {
@@ -55,7 +54,7 @@ export default function ProjectData() {
     resolver: yupResolver(projectDataSehemaValidation),
   });
 
-  const onSubmit = async (Data: DataType) => {
+  const onSubmit = async (Data: ProjectTypeForm) => {
     try {
       if (params.id) {
         await privateApiInstance.put(
@@ -75,7 +74,7 @@ export default function ProjectData() {
       onNavigate();
     }
   };
-
+  if (!isManager) navigate("dashboard");
   return (
     <div className={styles.overlayBg}>
       <Stack

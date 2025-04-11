@@ -1,18 +1,32 @@
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
 import { useContext, useState } from "react";
-import { FaAngleLeft, FaAngleRight, FaUser, FaProjectDiagram, FaTasks } from "react-icons/fa";
+import {
+  FaAngleLeft,
+  FaAngleRight,
+  FaUser,
+  FaProjectDiagram,
+  FaTasks,
+  FaHome,
+} from "react-icons/fa";
 import { Button } from "react-bootstrap";
 import { AuthContext } from "../../../contexts/AuthContext";
 
 export default function SideBar() {
-  const { logout } = useContext(AuthContext);
+  const { logout, isManager } = useContext(AuthContext);
   const [collapsed, setCollapsed] = useState(false);
- 
+
   return (
-    <div className="sidebar-container" >
-      <Sidebar collapsed={collapsed} >
-        <div className="sidebar-header" style={{ position: "relative", padding: "10px", marginBottom: "20px" }}>
+    <div className="sidebar-container">
+      <Sidebar collapsed={collapsed}>
+        <div
+          className="sidebar-header"
+          style={{
+            position: "relative",
+            padding: "10px",
+            marginBottom: "20px",
+          }}
+        >
           <Button
             variant="warning"
             className="toggle-btn"
@@ -34,12 +48,24 @@ export default function SideBar() {
           </Button>
         </div>
         <Menu>
-          <MenuItem component={<Link to="/users" />}>
-            <FaUser style={{ marginRight: "10px" }} /> Users
+          <MenuItem component={<Link to="" />}>
+            <FaHome style={{ marginRight: "10px" }} /> Home
           </MenuItem>
-          <MenuItem component={<Link to="/Project" />}>
+          {isManager && (
+            <MenuItem component={<Link to="users" />}>
+              <FaUser style={{ marginRight: "10px" }} /> Users
+            </MenuItem>
+          )}
+
+          <MenuItem component={<Link to="projects" />}>
             <FaProjectDiagram style={{ marginRight: "10px" }} /> Projects
           </MenuItem>
+
+
+          <MenuItem component={<Link to="tasks" />}>
+            <FaTasks style={{ marginRight: "10px" }} /> Tasks
+          </MenuItem>
+
           <MenuItem component={<Link to="new-task" />}>
             <FaTasks style={{ marginRight: "10px" }} /> Tasks
           </MenuItem>
@@ -47,7 +73,7 @@ export default function SideBar() {
             <FaTasks style={{ marginRight: "10px" }} /> Task Board
           </MenuItem>
           <MenuItem onClick={() => logout()}>
-            <FaTasks style={{ marginRight: "10px" }} /> 
+            <FaTasks style={{ marginRight: "10px" }} />
             LogOut
           </MenuItem>
         </Menu>

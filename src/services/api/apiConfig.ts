@@ -16,10 +16,20 @@ export const users_endpoints = {
 
 export const projects_endpoints = {
   GET_ALL_PROJECTS: `/Project/`,
+  GET_ALL_PROJECTS_MANAGER: `/Project/manager`,
+  GET_ALL_PROJECTS_EMPLOYEE: `/Project/employee`,
   GET_PROJECT: (id: number) => `/Project/${id}`,
   UPDATE_PROJECT: (id: number) => `/Project/${id}`,
   DELETE_PROJECT: (id: number) => `/Project/${id}`,
   ADD_PROJECT: `/Project`,
+};
+
+
+export const dashboard_endpoints = {
+  GET_TASKS_COUNT: `/Task/count`,
+  GET_USER_COUNT: `/Users/count`,
+  GET_ALL_PROJECTS_MANAGER: `/Project/manager`,
+  GET_ALL_PROJECTS_EMPLOYEE: `/Project/employee`,
 };
 
 export const tasks_endpoints = {
@@ -29,3 +39,4 @@ export const tasks_endpoints = {
   DELETE_TASK: (id: number) => `/Task/${id}`,
   ADD_TASK: `/Task`,
 };
+
