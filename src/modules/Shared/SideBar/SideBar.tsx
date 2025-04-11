@@ -17,7 +17,6 @@ export default function SideBar() {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
-
     <div className="sidebar-container">
       <Sidebar collapsed={collapsed}>
         <div
@@ -51,10 +50,10 @@ export default function SideBar() {
         <Menu>
           <MenuItem component={<Link to="users" />}>
             <FaUser style={{ marginRight: "10px" }} /> Users
+          </MenuItem>
 
           <MenuItem component={<Link to="" />}>
             <FaHome style={{ marginRight: "10px" }} /> Home
-
           </MenuItem>
           {isManager && (
             <MenuItem component={<Link to="users" />}>
@@ -66,8 +65,7 @@ export default function SideBar() {
             <FaProjectDiagram style={{ marginRight: "10px" }} /> Projects
           </MenuItem>
 
-
-          <MenuItem component={<Link to="tasks" />}>
+          <MenuItem component={<Link to="all-tasks" />}>
             <FaTasks style={{ marginRight: "10px" }} /> Tasks
           </MenuItem>
 
