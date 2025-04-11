@@ -1,3 +1,23 @@
+
+:root{
+  --background-color:#3e5e58;
+  --second-color:#000;
+  --primart-text-color:#fff;
+  --cardbg: #f5a623;
+  --togle-color:#f5a623;
+  --dtogle-color:red;
+  --second-togle-color:red;
+
+}
+
+[data-theme="dark"]
+{
+  --background-color:#000;
+  --primart-text-color:#fff;
+  --cardbg:#474747;
+  --dtogle-color:#2222;
+
+}
 .container {
   min-height: 100vh;
     padding: 20px;
@@ -34,7 +54,7 @@
   }
   
   .taskCard {
-    background-color: #f5a623;
+    background-color:var(--cardbg);
     color: white;
     padding: 10px;
     border-radius: 6px;
