@@ -61,12 +61,16 @@ export default function SideBar() {
             <FaProjectDiagram style={{ marginRight: "10px" }} /> Projects
           </MenuItem>
 
+
           <MenuItem component={<Link to="tasks" />}>
             <FaTasks style={{ marginRight: "10px" }} /> Tasks
           </MenuItem>
 
+          <MenuItem component={<Link to="new-task" />}>
+            <FaTasks style={{ marginRight: "10px" }} /> Tasks
+          </MenuItem>
           <MenuItem component={<Link to="TaskBoard" />}>
-            <FaTasks style={{ marginRight: "10px" }} /> Taskboard
+            <FaTasks style={{ marginRight: "10px" }} /> Task Board
           </MenuItem>
           <MenuItem onClick={() => logout()}>
             <FaTasks style={{ marginRight: "10px" }} />

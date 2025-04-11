@@ -24,9 +24,19 @@ export const projects_endpoints = {
   ADD_PROJECT: `/Project`,
 };
 
+
 export const dashboard_endpoints = {
   GET_TASKS_COUNT: `/Task/count`,
   GET_USER_COUNT: `/Users/count`,
   GET_ALL_PROJECTS_MANAGER: `/Project/manager`,
   GET_ALL_PROJECTS_EMPLOYEE: `/Project/employee`,
 };
+
+export const tasks_endpoints = {
+  GET_ALL_TASKS: `/Task/manager`,
+  GET_TASK: (id: number) => `/Task/${id}`,
+  UPDATE_TASK: (id: number) => `/Task/${id}`,
+  DELETE_TASK: (id: number) => `/Task/${id}`,
+  ADD_TASK: `/Task`,
+};
+

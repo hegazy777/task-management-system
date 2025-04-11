@@ -1,0 +1,26 @@
+.rigesterConntainer {
+  background-color: rgba(49, 74, 89, 0.9);
+}
+.inputStyle {
+  background-color: transparent;
+  border-bottom: 0.3px solid rgba(255, 255, 255, 1);
+  padding-bottom: 5px;
+  color: white;
+}
+.inputStyle::placeholder {
+  color: white;
+  font-size: 15px;
+}
+.lableStyle {
+  color: var(--mainColor);
+  font-size: 12px;
+  line-height: 22px;
+  font-weight: 400px;
+}
+.btnMainColor{
+    background-color: var(--mainColor) !important;
+}
+.handleEye{
+  right: 2%;
+  cursor: pointer;
+}
