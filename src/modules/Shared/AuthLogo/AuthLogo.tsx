@@ -1,7 +1,7 @@
 import logo from '../../../assets/authLogo.png';
 function AuthLogo() {
   return (
-    <img src={logo} className="my-3" alt="project mangment system" />
+    <img src={logo} className="my-2 " alt="project mangment system" />
   )
 }
 

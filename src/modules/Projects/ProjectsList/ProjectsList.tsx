@@ -1,12 +1,12 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 // import DeleteConfirmation from "../../Shared/Modal/DeleteConfirmation";
 import {
   faSearch,
   faEllipsis,
-  faEyeSlash,
   faTrash,
   faEdit,
+  faEye,
 } from "@fortawesome/free-solid-svg-icons";
 import { projects_endpoints } from "../../../services/api/apiConfig";
 import { privateApiInstance } from "../../../services/api/apiInstance";
@@ -17,21 +17,11 @@ import styles from "./ProjectsList.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DeleteConfirmation from "../../Shared/DeleteConfirmation/DeleteConfirmation";
 import { useNavigate } from "react-router-dom";
-type ProjectType = {
-  id: number;
-  title: string;
-  description: string;
-  creationDate: string;
-  modificationDate: string;
-  manager: ManagerType;
-};
+import { ProjectType } from "../../../interfaces/interfaces";
+import { AuthContext } from "../../../contexts/AuthContext";
 
-type ManagerType = {
-  id: number;
-  userName: string;
-  imagePath: string;
-};
 export default function ProjectsList() {
+  const { isManager } = useContext(AuthContext);
   const navigate = useNavigate();
   // handle fetch logic
   const [projectsList, setProjectList] = useState<ProjectType[]>([]);
@@ -52,7 +42,9 @@ export default function ProjectsList() {
   ) => {
     try {
       const response = await privateApiInstance.get(
-        projects_endpoints.GET_ALL_PROJECTS,
+        isManager
+          ? projects_endpoints.GET_ALL_PROJECTS_MANAGER
+          : projects_endpoints.GET_ALL_PROJECTS_EMPLOYEE,
         {
           params: {
             pageNumber,
@@ -67,28 +59,9 @@ export default function ProjectsList() {
       // console.log(response?.data);
       setProjectList(
         //map items to remove sensetive data that is coming with this api call
-        response?.data?.data.map(
-          ({
-            id,
-            title,
-            description,
-            creationDate,
-            modificationDate,
-            manager,
-          }: ProjectType) => ({
-            id,
-            title,
-            description,
-            creationDate,
-            modificationDate,
-            manager: {
-              id: manager.id,
-              userName: manager.userName,
-              imagePath: manager.imagePath,
-            },
-          })
-        )
+        response?.data?.data
       );
+
       setLoading(false);
     } catch (error) {
       const axiosError = error as AxiosError<{ message?: string }>;
@@ -97,6 +70,7 @@ export default function ProjectsList() {
   };
   useEffect(() => {
     getAllProjects(pageSize, currentPageNumber, title);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPageNumber, title, pageSize]);
 
   // handle delete category logic
@@ -150,12 +124,12 @@ export default function ProjectsList() {
         <div className="caption">
           <h3>Projects</h3>
         </div>
-        <Button variant="outline-secondary" onClick={() => navigate("new")}>
-          Add New Project
-        </Button>
-        {/* <CategoryData
-          getAllCategories={() => getAllCategories(10, currentPageNumber, name)}
-        /> */}
+
+        {isManager && (
+          <Button variant="outline-secondary" onClick={() => navigate("new")}>
+            Add New Project
+          </Button>
+        )}
       </Stack>
 
       <div className="p-5">
@@ -189,17 +163,18 @@ export default function ProjectsList() {
               <tr>
                 <th scope="col">Title</th>
                 <th scope="col">Description</th>
-                <th scope="col">Manager</th>
+                <th scope="col">NumTasks</th>
                 <th scope="col">Creation Date</th>
                 <th scope="col">Modification Date</th>
-                <th scope="col">Actions</th>
+
+                {isManager && <th scope="col">Actions</th>}
               </tr>
             </thead>
 
             {loading ? (
               <tbody className="text-center">
                 <tr>
-                  <td colSpan={6} className="">
+                  <td colSpan={isManager ? 5 : 6} className="">
                     <div className="spinner-border" role="status">
                       <span className="visually-hidden">Loading...</span>
                     </div>
@@ -210,8 +185,8 @@ export default function ProjectsList() {
               <tbody>
                 {projectsList.length === 0 ? (
                   <tr>
-                    <td colSpan={7}>
-                      no data
+                    <td colSpan={isManager ? 7 : 6}>
+                      No Data
                       {/* <NoData /> */}
                     </td>
                   </tr>
@@ -220,84 +195,53 @@ export default function ProjectsList() {
                     <tr key={project.id}>
                       <td>{project.title}</td>
                       <td>{project.description}</td>
-                      <td>{project.manager.userName}</td>
+                      <td>{project.task?.length}</td>
                       <td>{project.creationDate}</td>
                       <td>{project.modificationDate}</td>
+                      {isManager && (
+                        <td>
+                          <Dropdown align="end">
+                            <Dropdown.Toggle
+                              id="dropdown-basic"
+                              icon={faEllipsis}
+                              className="test-success m-2"
+                              as={FontAwesomeIcon}
+                            />
 
-                      <td>
-                        <Dropdown align="end">
-                          <Dropdown.Toggle
-                            id="dropdown-basic"
-                            icon={faEllipsis}
-                            className="test-success m-2"
-                            as={FontAwesomeIcon}
-                          />
-
-                          <Dropdown.Menu variant="secondary">
-                            <Dropdown.Item className={styles.dropdownItem}>
-                              <div>
-                                <FontAwesomeIcon
-                                  className={styles.dropdownIcon}
-                                  icon={faEyeSlash}
-                                />
-                                <span>View</span>
-                              </div>
-                            </Dropdown.Item>
-                            <Dropdown.Item className={styles.dropdownItem}>
-                              <div
-                                onClick={() => navigate(`${project.id}/edit`)}
-                              >
-                                <FontAwesomeIcon
-                                  icon={faEdit}
-                                  className={styles.dropdownIcon}
-                                />
-                                <span>Edit</span>
-                              </div>
-                            </Dropdown.Item>
-                            <Dropdown.Item className={styles.dropdownItem}>
-                              <div onClick={() => handleShow(project.id)}>
-                                <FontAwesomeIcon
-                                  icon={faTrash}
-                                  className={styles.dropdownIcon}
-                                />
-                                <span>Delete</span>
-                              </div>
-                            </Dropdown.Item>
-                            {/* <ul className="dropdown-menu">
-                            <li>
-                              <button className="dropdown-item" type="button">
-                                <i className="fa fa-eye text-success m-2"></i>
-                                View
-                              </button>
-                            </li>
-                            <li> */}
-                            {/* <CategoryData
-                            selectedId={category.id}
-                            categoryName={category.name}
-                            getAllCategories={() =>
-                              getAllCategories(10, currentPageNumber, name)
-                            }
-                          /> */}
-                            {/* </li>
-                            <li> */}
-                            {/*
-                          
-                          
-                          <button
-                            className="dropdown-item"
-                            onClick={() => handleShow(category.id)}
-                            type="button"
-                          >
-                            <i className="fa fa-trash text-success m-2"></i>
-                            Delete
-                          </button>
-                          
-                          */}
-                            {/* </li>
-                          </ul> */}
-                          </Dropdown.Menu>
-                        </Dropdown>
-                      </td>
+                            <Dropdown.Menu variant="secondary">
+                              <Dropdown.Item className={styles.dropdownItem}>
+                                <div>
+                                  <FontAwesomeIcon
+                                    className={styles.dropdownIcon}
+                                    icon={faEye}
+                                  />
+                                  <span>View</span>
+                                </div>
+                              </Dropdown.Item>
+                              <Dropdown.Item className={styles.dropdownItem}>
+                                <div
+                                  onClick={() => navigate(`${project.id}/edit`)}
+                                >
+                                  <FontAwesomeIcon
+                                    icon={faEdit}
+                                    className={styles.dropdownIcon}
+                                  />
+                                  <span>Edit</span>
+                                </div>
+                              </Dropdown.Item>
+                              <Dropdown.Item className={styles.dropdownItem}>
+                                <div onClick={() => handleShow(project.id)}>
+                                  <FontAwesomeIcon
+                                    icon={faTrash}
+                                    className={styles.dropdownIcon}
+                                  />
+                                  <span>Delete</span>
+                                </div>
+                              </Dropdown.Item>
+                            </Dropdown.Menu>
+                          </Dropdown>
+                        </td>
+                      )}
                     </tr>
                   ))
                 )}
