@@ -12,7 +12,7 @@ import { projects_endpoints } from "../../../services/api/apiConfig";
 import { privateApiInstance } from "../../../services/api/apiInstance";
 import { AxiosError } from "axios";
 import Pagination from "../../Shared/Pagination/Pagination";
-import { Button, Dropdown, Stack, Table } from "react-bootstrap";
+import { Dropdown, Stack, Table } from "react-bootstrap";
 import styles from "./ProjectsList.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DeleteConfirmation from "../../Shared/DeleteConfirmation/DeleteConfirmation";
@@ -126,9 +126,9 @@ export default function ProjectsList() {
         </div>
 
         {isManager && (
-          <Button variant="outline-secondary" onClick={() => navigate("new")}>
+          <button className={styles.addBtn} onClick={() => navigate("new")}>
             Add New Project
-          </Button>
+          </button>
         )}
       </Stack>
 

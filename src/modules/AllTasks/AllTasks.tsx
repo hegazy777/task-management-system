@@ -19,6 +19,13 @@ type taskType = {
     creationDate: string;
     modificationDate: string;
     manager: ManagerType;
+    status: string; // Added the missing property
+    employee: {
+        userName: string;
+    }; // Added the missing 'employee' property
+    project: {
+        title: string;
+    }; // Added the missing 'project' property
 };
 
 type ManagerType = {
@@ -136,7 +143,7 @@ function AllTasks() {
                                 <div className={`${styles.inputGroup} input-group`}>
                                     <div className="input-group-prepend">
                                         <span
-                                            className="input-group-text bg-transparent"
+                                            className={`input-group-text bg-transparent`}
                                             id="search-addon"
                                         >
                                             <FontAwesomeIcon icon={faSearch} />
@@ -157,11 +164,11 @@ function AllTasks() {
                         <thead>
                             <tr>
                                 <th scope="col">Title</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">Manager</th>
-                                <th scope="col">Creation Date</th>
-                                <th scope="col">Modification Date</th>
-                                <th scope="col">Actions</th>
+                                <th scope="col">Statues</th>
+                                <th scope="col">Users</th>
+                                <th scope="col">Project</th>
+                                <th scope="col">Date Created</th>
+                                <th scope="col"></th>
                             </tr>
                         </thead>
 
@@ -188,11 +195,10 @@ function AllTasks() {
                                     tasksList.map((task) => (
                                         <tr key={task.id}>
                                             <td>{task.title}</td>
-                                            <td>{task.description}</td>
-                                            {/* <td>{project.manager.userName}</td> */}
+                                            <td className={styles.status}><span>{task.status}</span></td>
+                                            <td>{task.employee.userName}</td>
+                                            <td>{task.project.title}</td>
                                             <td>{task.creationDate}</td>
-                                            <td>{task.creationDate}</td>
-                                            <td>{task.modificationDate}</td>
 
                                             <td>
                                                 <Dropdown align="end">
