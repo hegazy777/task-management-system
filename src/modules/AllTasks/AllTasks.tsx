@@ -19,19 +19,6 @@ type taskType = {
     creationDate: string;
     modificationDate: string;
     manager: ManagerType;
-    status: string;
-    employee: EmployeeType;
-    project: ProjectType;
-};
-
-type ProjectType = {
-    id: number;
-    title: string;
-};
-
-type EmployeeType = {
-    id: number;
-    userName: string;
 };
 
 type ManagerType = {
@@ -170,11 +157,11 @@ function AllTasks() {
                         <thead>
                             <tr>
                                 <th scope="col">Title</th>
-                                <th scope="col">Statues</th>
-                                <th scope="col">User</th>
-                                <th scope="col">Project</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Manager</th>
                                 <th scope="col">Creation Date</th>
-                                <th scope="col"></th>
+                                <th scope="col">Modification Date</th>
+                                <th scope="col">Actions</th>
                             </tr>
                         </thead>
 
@@ -201,10 +188,11 @@ function AllTasks() {
                                     tasksList.map((task) => (
                                         <tr key={task.id}>
                                             <td>{task.title}</td>
-                                            <td>{task.status}</td>
-                                            <td>{task.employee.userName}</td>
-                                            <td>{task.project.title}</td>
+                                            <td>{task.description}</td>
+                                            {/* <td>{project.manager.userName}</td> */}
                                             <td>{task.creationDate}</td>
+                                            <td>{task.creationDate}</td>
+                                            <td>{task.modificationDate}</td>
 
                                             <td>
                                                 <Dropdown align="end">
