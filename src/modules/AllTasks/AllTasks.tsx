@@ -19,6 +19,19 @@ type taskType = {
     creationDate: string;
     modificationDate: string;
     manager: ManagerType;
+    status: string;
+    employee: EmployeeType;
+    project: ProjectType;
+};
+
+type ProjectType = {
+    id: number;
+    title: string;
+};
+
+type EmployeeType = {
+    id: number;
+    userName: string;
 };
 
 type ManagerType = {
@@ -157,11 +170,11 @@ function AllTasks() {
                         <thead>
                             <tr>
                                 <th scope="col">Title</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">Manager</th>
+                                <th scope="col">Statues</th>
+                                <th scope="col">User</th>
+                                <th scope="col">Project</th>
                                 <th scope="col">Creation Date</th>
-                                <th scope="col">Modification Date</th>
-                                <th scope="col">Actions</th>
+                                <th scope="col"></th>
                             </tr>
                         </thead>
 
@@ -185,14 +198,13 @@ function AllTasks() {
                                         </td>
                                     </tr>
                                 ) : (
-                                    tasksList.map((project) => (
-                                        <tr key={project.id}>
-                                            <td>{project.title}</td>
-                                            <td>{project.description}</td>
-                                            {/* <td>{project.manager.userName}</td> */}
-                                            <td>{project.creationDate}</td>
-                                            <td>{project.creationDate}</td>
-                                            <td>{project.modificationDate}</td>
+                                    tasksList.map((task) => (
+                                        <tr key={task.id}>
+                                            <td>{task.title}</td>
+                                            <td>{task.status}</td>
+                                            <td>{task.employee.userName}</td>
+                                            <td>{task.project.title}</td>
+                                            <td>{task.creationDate}</td>
 
                                             <td>
                                                 <Dropdown align="end">
@@ -215,7 +227,7 @@ function AllTasks() {
                                                         </Dropdown.Item>
                                                         <Dropdown.Item className={styles.dropdownItem}>
                                                             <div
-                                                                onClick={() => navigate(`${project.id}/edit`)}
+                                                                onClick={() => navigate(`${task.id}/edit`)}
                                                             >
                                                                 <FontAwesomeIcon
                                                                     icon={faEdit}
@@ -225,7 +237,7 @@ function AllTasks() {
                                                             </div>
                                                         </Dropdown.Item>
                                                         <Dropdown.Item className={styles.dropdownItem}>
-                                                            <div onClick={() => handleShow(project.id)}>
+                                                            <div onClick={() => handleShow(task.id)}>
                                                                 <FontAwesomeIcon
                                                                     icon={faTrash}
                                                                     className={styles.dropdownIcon}
