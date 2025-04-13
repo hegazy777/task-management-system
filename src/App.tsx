@@ -26,6 +26,7 @@ import UserLIst from "./modules/UserLIst/UserLIst";
 import TaskBoard from "./modules/TaskBoard/TaskBoard";
 
 import '../src/modules/Shared/DarkMode/DarkMode.css';
+import TaskData from "./modules/TaskData/TaskData";
 function App() {
   const router = createBrowserRouter([
     {
@@ -72,6 +73,10 @@ function App() {
         {
           path: "users",
           element: <UserLIst />,
+        },
+        {
+          path: "all-tasks/:id/edit",
+          element: <TaskData />,
         },
         {
           path: "TaskBoard",

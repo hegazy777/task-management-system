@@ -30,7 +30,7 @@ function Tasks() {
 
   const getUsers = async () => {
     try {
-      const response = await privateApiInstance.get(users_endpoints.GET_ALL_USERS);
+      const response = await privateApiInstance.get(users_endpoints.GET_ALL_USERS(1));
       setUsers(response.data.data);
     }
     catch (error) {
