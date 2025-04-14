@@ -1,4 +1,4 @@
-import { faArrowDown, faArrowLeft, faArrowRight, faEllipsisVertical, faEye, faFilter, faSearch, faSort } from "@fortawesome/free-solid-svg-icons";
+import { faArrowDown, faArrowLeft, faArrowRight, faEye, faFilter, faSearch, faSort } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./UserLIst.css"
 import { Dropdown, Table } from "react-bootstrap";
@@ -9,6 +9,7 @@ import DateObject from "react-date-object";
 import UserDeatls from './../Shared/UserDeatls/UserDeatls';
 import { data, User } from "../../services/UserListInterFaces/InterFace";
 import { toast } from "react-toastify";
+import TableActionBtn from '../Shared/TableActionBtn/TableActionBtn';
 
 export default function UserLIst() {
 
@@ -21,6 +22,7 @@ export default function UserLIst() {
     const [show, setShow] = useState(false);
     const [valueInput, setvalueInput] = useState(null);
     const [searhedData, setsearhedData] = useState(null);
+    const [blockedUser, setBlockedUser] = useState(null)
 
 
     useEffect(() => {
@@ -31,7 +33,6 @@ export default function UserLIst() {
     function getEmployee(pageNum: number) {
         privateApiInstance.get(users_endpoints.GET_ALL_USERS(pageNum)
         ).then((res) => {
-            console.log(res.data)
             setGetUsers(res?.data)
         }).catch((res) => {
             console.log(res)
@@ -47,6 +48,8 @@ export default function UserLIst() {
     function blockUser(id: number) {
         privateApiInstance.put(users_endpoints.UPDATE_USER(id)).then((res) => {
             if (res.status == 200) {
+                setBlockedUser(res.data)
+                console.log(blockedUser)
                 toast.success("User Blocked !")
                 getEmployee(getPageNumber)
 
@@ -117,6 +120,7 @@ export default function UserLIst() {
         privateApiInstance.get(users_endpoints.getFilterUser(valueInput, e.target.value, getPageNumber)).then((res) => {
             console.log(res.data.data)
             setsearhedData(res?.data)
+
         }).catch((res) => {
             console.log(res)
 
@@ -200,7 +204,7 @@ export default function UserLIst() {
                                                     <th>Action  </th></tr>
                                             </thead>
 
-                                            {searhedData ? <tbody className={  searhedData.data.length == 1||  searhedData.data.length == 2  || searhedData.data.length == 3 ||searhedData.data.length == 0 ? `vh-100` : ``}>     {searhedData.data.length > 0 ?
+                                            {searhedData ? <tbody className={searhedData.data.length == 1 || searhedData.data.length == 2 || searhedData.data.length == 3 || searhedData.data.length == 0 ? `vh-100` : ``}>     {searhedData.data.length > 0 ?
                                                 searhedData.data.map((searh: User) => {
                                                     let date = new DateObject(searh.creationDate);
 
@@ -219,22 +223,9 @@ export default function UserLIst() {
                                                         <td className="p-3">{searh.email}</td>
                                                         <td className="p-3">{date.format()}</td>
                                                         <td className="p-3">
-                                                            <Dropdown>
-                                                                <Dropdown.Toggle className="ed border-0" variant="white" id="">
-                                                                    <span id="dropdown-basic2"> <FontAwesomeIcon icon={faEllipsisVertical} /></span>
-                                                                </Dropdown.Toggle>
 
-                                                                <Dropdown.Menu>
-                                                                    <Dropdown.Item onClick={() => blockUser(searh.id)} >Block</Dropdown.Item>
-                                                                    <Dropdown.Item onClick={() => {
-                                                                        getUserDeatls(searh.id);
-                                                                        handleShow()
-
-
-                                                                    }
-                                                                    } >  <FontAwesomeIcon icon={faEye} /> View</Dropdown.Item>
-                                                                </Dropdown.Menu>
-                                                            </Dropdown></td></tr>
+                                                            <TableActionBtn userId={searh.id} blockUser={() => blockUser(searh.id)} getUserDeatls={getUserDeatls} handleShow={handleShow} />
+                                                        </td></tr>
                                                 })
 
                                                 : <span className="position-absolute top led h1 " > no data avalible</span>}     </tbody> : <>
@@ -257,49 +248,38 @@ export default function UserLIst() {
                                                             <td className="p-3">{user.email}</td>
                                                             <td className="p-3">{date.format()}</td>
                                                             <td className="p-3">
-                                                                <Dropdown>
-                                                                    <Dropdown.Toggle className="ed border-0" variant="white" id="">
-                                                                        <span id="dropdown-basic2"> <FontAwesomeIcon icon={faEllipsisVertical} /></span>
-                                                                    </Dropdown.Toggle>
-
-                                                                    <Dropdown.Menu>
-                                                                        <Dropdown.Item onClick={() => blockUser(user.id)} >Block</Dropdown.Item>
-                                                                        <Dropdown.Item onClick={() => {
-                                                                            getUserDeatls(user.id);
-                                                                            handleShow()
-
-
-                                                                        }
-                                                                        } >  <FontAwesomeIcon icon={faEye} /> View</Dropdown.Item>
-                                                                    </Dropdown.Menu>
-                                                                </Dropdown></td></tr>
+                                                                <TableActionBtn userId={user.id} blockUser={() => blockUser(user.id)} getUserDeatls={getUserDeatls} handleShow={handleShow} />
+                                                            </td></tr>
 
                                                     })}
-                                                </tbody> </>}
+                                                </tbody>
+                                            </>}
 
 
-
+                                                    
 
 
 
                                         </Table>
+                                        <div className="d-flex justify-content-lg-end  align-items-baseline mt-2 py-2 ">   <span >showing </span>
+
+
+                                            <div className=" border  rounded-5 ms-md-2 px-md-3 p-md-1">                                            <span id="dropdown-basic" className="d-inline-flex justify-content-center align-items-center p-2 p-md-0 ">  10 <FontAwesomeIcon icon={faArrowDown} className="ms-1" /> </span>
+                                            </div>
+
+
+
+
+                                            <span className="mx-2 me-4">of {getUsers?.totalNumberOfRecords} Result</span>
+
+                                            <div className="text-center"> Page {getPageNumber} of {getUsers?.totalNumberOfPages} <FontAwesomeIcon onClick={prevPage} className="cursor-pointer" icon={faArrowLeft} /> <FontAwesomeIcon onClick={nextPage} className="mx-2 cursor-pointer" icon={faArrowRight} />  </div>
+                                        </div>
+                                        
                                     </div>
 
                                 </div>
 
-                                <div className="d-flex justify-content-lg-end  align-items-baseline mt-2 py-2 ">   <span >showing </span>
 
-
-                                    <div className=" border  rounded-5 ms-md-2 px-md-3 p-md-1">                                            <span id="dropdown-basic" className="d-inline-flex justify-content-center align-items-center p-2 p-md-0 ">  10 <FontAwesomeIcon icon={faArrowDown} className="ms-1" /> </span>
-                                    </div>
-
-
-
-
-                                    <span className="mx-2 me-4">of {getUsers?.totalNumberOfRecords} Result</span>
-
-                                    <div className="text-center"> Page {getPageNumber} of {getUsers?.totalNumberOfPages} <FontAwesomeIcon onClick={prevPage} className="cursor-pointer" icon={faArrowLeft} /> <FontAwesomeIcon onClick={nextPage} className="mx-2 cursor-pointer" icon={faArrowRight} />  </div>
-                                </div>
                             </div>
 
 

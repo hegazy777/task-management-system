@@ -3,7 +3,7 @@ import { User } from "../../../services/UserListInterFaces/InterFace"
 // import styls from "./UserDeatls.module.css"
 
 
-export default function UserDeatls({ userDeatls, show, handleClose, Loader }: { userDeatls: User; show: boolean; handleClose: () => void; handleShow: () => void; Loader: boolean }) {
+export default function UserDeatls({ userDeatls, show, handleClose, Loader }: { userDeatls: User|null , show: boolean; handleClose: () => void; handleShow: () => void; Loader: boolean }) {
     console.log(userDeatls)
 
 
