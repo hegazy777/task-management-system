@@ -4,12 +4,10 @@
   box-sizing: border-box;
 }
 html,
-body {
+body,
+#root {
   height: 100%;
   width: 100%;
-
-  
-
 }
 :root{
   --mainColor : rgba(239, 155, 40, 1);
@@ -83,7 +81,7 @@ input, textarea, select {
   background-image: url("../src/assets/loginbg.png");
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: cover; 
+  background-size: cover;
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -101,12 +99,13 @@ input, textarea, select {
   background-image: url("../src/assets/home-bg.png");
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: cover; 
-  height: 100vh; 
+  background-size: cover;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 
 .sidebar-container{
   background-color: #0E382F!important;
@@ -121,21 +120,36 @@ input, textarea, select {
   background-color: rgb(14 56 47) !important;
   color: #fff;
 }
-.css-1t8x7v1 >.ps-menu-button:hover {
+.css-1t8x7v1 > .ps-menu-button:hover {
   background-color: transparent !important;
 }
+.cursor-pointer{
+  cursor: pointer;
+}
 
-/* media qury */
+body.dark-mode {
+  background-color: #121212;
+}
 
+body.dark-mode .navbar {
+  background-color: #1e1e1e !important;
+}
 
-/* @media (min-width: 576px) {  }
+body.dark-mode .dropdown-menu {
+  background-color: #2a2a2a;
+  color: #ffffff;
+}
 
-@media (min-width: 768px) { 
- 
- }
+body.dark-mode .dropdown-item {
+  color: #ffffff;
+}
+body.dark-mode .user {
+  color: #ffffff;
+}
+body.dark-mode .css-dip3t8{
+  background-color: #121212 !important;
+}
 
-@media (min-width: 992px) {  }
-
-@media (min-width: 1200px) {  }
-
-@media (min-width: 1400px) {  } */
+body.dark-mode .sidebar-container{
+  background-color: #121212 !important;
+}

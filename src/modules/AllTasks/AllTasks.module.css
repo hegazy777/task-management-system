@@ -15,3 +15,14 @@ th {
   background-color: rgba(160, 177, 174, 0.9) !important;
   color: white !important;
 }
+
+.status span {
+  background-color: #E4E1F5 !important;
+  border-radius: 16px;
+  padding: 5px 18px;
+}
+
+.input {
+  border-radius: 25px !important;
+  padding: 5px 18px;
+}

@@ -21,6 +21,12 @@ import AllTasks from "./modules/AllTasks/AllTasks";
 import ProjectsList from "./modules/Projects/ProjectsList/ProjectsList";
 import ProjectData from "./modules/Projects/ProjectData/ProjectData";
 
+import UserLIst from "./modules/UserLIst/UserLIst";
+
+import TaskBoard from "./modules/TaskBoard/TaskBoard";
+
+import '../src/modules/Shared/DarkMode/DarkMode.css';
+import TaskData from "./modules/TaskData/TaskData";
 function App() {
   const router = createBrowserRouter([
     {
@@ -48,7 +54,7 @@ function App() {
       ),
       errorElement: <NotFound />,
       children: [
-        { index: true, element: <Dashboard />},
+        { index: true, element: <Dashboard /> },
         { path: "new-task", element: <Tasks /> },
         { path: "all-tasks", element: <AllTasks /> },
         {
@@ -63,6 +69,18 @@ function App() {
         {
           path: "projects/:id/edit",
           element: <ProjectData />,
+        },
+        {
+          path: "users",
+          element: <UserLIst />,
+        },
+        {
+          path: "all-tasks/:id/edit",
+          element: <TaskData />,
+        },
+        {
+          path: "TaskBoard",
+          element: <TaskBoard />,
         },
       ],
     },

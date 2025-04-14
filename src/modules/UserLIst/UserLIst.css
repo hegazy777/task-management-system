@@ -1,0 +1,85 @@
+.edit-search {
+  border: rgba(38, 56, 90, 0.25) solid 1px;
+  border-radius: 1.5rem;
+  padding: 5px;
+  text-align: center;
+}
+
+.handelSearhIcon {
+  left: 6%;
+  top: 26%;
+  cursor: pointer;
+}
+.bg-custom {
+  background-color: #f5f5f5;
+}
+
+.dropdown-toggle::after {
+  display: none !important;
+}
+.btnContainer .ed {
+  border: rgba(38, 56, 90, 0.25) solid 1px;
+  padding-inline: 20px;
+  border-radius: 30px;
+}
+.table-responsive {
+  max-width: 100%;
+}
+.table-responsive {
+    max-height: 45vh;
+    max-width: 80vw;
+  }
+  .w-custom{
+    width: 83%;
+  }
+  .top-1{
+    top: 1% ;
+  }
+  .led{
+    left: 45%;
+  }
+
+  .top{
+    top: 72%;
+  }
+  .show-dropdown  .btn{
+border: none !important
+;  }
+
+
+/* media */
+
+@media (min-width: 576px) {
+    .w-custom{
+        width: 85%;
+      }
+}
+
+@media (min-width: 768px) {
+  .handelSearhIcon {
+    left: 7%;
+    top: 26%;
+    cursor: pointer;
+  }
+  .w-custom{
+    width: 100%;
+  }
+}
+
+@media  (min-width: 992px) {
+    .table-responsive {
+        max-height: 60vh;
+        max-width: 100%;
+      }
+     
+ 
+}
+
+@media (min-width: 1200px) {
+   
+}
+
+
+@media (min-width: 1400px) {
+   
+}

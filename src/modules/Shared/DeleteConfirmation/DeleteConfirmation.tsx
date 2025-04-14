@@ -3,17 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import styles from "./DeleteConfirmation.module.css";
-export default function DeleteConfirmation({
-  item,
-  show,
-  handleClose,
-  handleCloseAndDelete,
-}: {
-  item: string;
-  show: boolean;
-  handleClose: () => void;
-  handleCloseAndDelete: () => void;
-}) {
+export default function DeleteConfirmation({item,show,handleClose,handleCloseAndDelete,}: {item: string;show: boolean;handleClose: () => void;handleCloseAndDelete: () => void;}) {
   return (
     <Modal show={show} onHide={handleClose}>
       <FontAwesomeIcon
