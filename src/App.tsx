@@ -1,4 +1,3 @@
-import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AuthLayout from "./modules/Shared/AuthLayout/AuthLayout";
 import ForgetPassword from "./modules/Authentcations/ForgotPassword/ForgotPassword";
@@ -15,9 +14,19 @@ import MasterLayout from "./modules/Shared/MasterLayout/MasterLayout";
 import ResetPassword from "./modules/Authentcations/ResetPassword/ResetPassword";
 
 import "react-toastify/dist/ReactToastify.css";
+
+import Tasks from "./modules/Tasks/Tasks";
+import AllTasks from "./modules/AllTasks/AllTasks";
+
 import ProjectsList from "./modules/Projects/ProjectsList/ProjectsList";
 import ProjectData from "./modules/Projects/ProjectData/ProjectData";
+
 import UserLIst from './modules/UserLIst/UserLIst';
+
+
+import TaskBoard from "./modules/TaskBoard/TaskBoard";
+
+
 function App() {
   const router = createBrowserRouter([
     {
@@ -45,6 +54,9 @@ function App() {
       ),
       errorElement: <NotFound />,
       children: [
+        { index: true, element: <Dashboard />},
+        { path: "new-task", element: <Tasks /> },
+        { path: "all-tasks", element: <AllTasks /> },
         {
           index: true,
           element: <Dashboard />,
@@ -62,6 +74,9 @@ function App() {
           path: "users",
           element: <UserLIst />,
         },
+          path:"TaskBoard",
+          element:<TaskBoard/>
+        }
       ],
     },
   ]);

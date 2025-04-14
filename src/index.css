@@ -4,12 +4,13 @@
   box-sizing: border-box;
 }
 html,
-body {
+body,
+#root {
   height: 100%;
   width: 100%;
-
-  
-
+}
+:root{
+  --mainColor : rgba(239, 155, 40, 1);
 }
 .auth-container {
   height: 100vh;
@@ -48,7 +49,7 @@ input:focus {
   /* border: none !important; */
 }
 
-input {
+input, textarea, select {
   outline: none;
   box-shadow: none;
   border: none;
@@ -80,11 +81,12 @@ input {
   background-image: url("../src/assets/loginbg.png");
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: cover; 
+  background-size: cover;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow-y: scroll;
 }
 
 .auth-content {
@@ -97,15 +99,17 @@ input {
   background-image: url("../src/assets/home-bg.png");
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: cover; 
-  height: 100vh; 
+  background-size: cover;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+
 .sidebar-container{
   background-color: #0E382F!important;
+  height: 100dvh;
   
 }
 
@@ -117,9 +121,26 @@ input {
   background-color: rgb(14 56 47) !important;
   color: #fff;
 }
-.css-1t8x7v1 >.ps-menu-button:hover {
+.css-1t8x7v1 > .ps-menu-button:hover {
   background-color: transparent !important;
 }
 .cursor-pointer{
   cursor: pointer;
 }
+
+
+
+/* media qury */
+
+
+/* @media (min-width: 576px) {  }
+
+@media (min-width: 768px) { 
+ 
+ }
+
+@media (min-width: 992px) {  }
+
+@media (min-width: 1200px) {  }
+
+@media (min-width: 1400px) {  } */
