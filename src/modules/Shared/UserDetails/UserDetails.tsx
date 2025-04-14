@@ -1,11 +1,8 @@
 import { Modal } from "react-bootstrap"
 import { User } from "../../../services/UserListInterFaces/InterFace"
-// import styls from "./UserDeatls.module.css"
 
 
-export default function UserDeatls({ userDeatls, show, handleClose, Loader }: { userDeatls: User; show: boolean; handleClose: () => void; handleShow: () => void; Loader: boolean }) {
-    console.log(userDeatls)
-
+export default function UserDetails({ userDeatls, show, handleClose, Loader, }: { userDeatls: User | null, show: boolean; handleClose: () => void; Loader: boolean }) {
 
 
     return (
@@ -16,7 +13,7 @@ export default function UserDeatls({ userDeatls, show, handleClose, Loader }: { 
 
         <>
 
-            {Loader ?    <Modal> <span className="vh-100 bg-black d-flex justify-content-center align-items-center"> LOad..</span> </Modal>  : <Modal centered
+            {Loader ? <Modal> <span className="vh-100 bg-black d-flex justify-content-center align-items-center"> LOad..</span> </Modal> : <Modal centered
                 show={show} onHide={handleClose} animation={false}>
                 <Modal.Body className="text-center">
 
