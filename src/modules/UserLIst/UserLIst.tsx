@@ -1,4 +1,4 @@
-import { faArrowDown, faArrowLeft, faArrowRight, faEye, faFilter, faSearch, faSort } from "@fortawesome/free-solid-svg-icons";
+import { faArrowDown, faArrowLeft, faArrowRight, faFilter, faSearch, faSort } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./UserLIst.css"
 import { Dropdown, Table } from "react-bootstrap";
@@ -6,23 +6,23 @@ import { useEffect, useState } from "react";
 import { users_endpoints } from './../../services/api/apiConfig';
 import { privateApiInstance } from "../../services/api/apiInstance";
 import DateObject from "react-date-object";
-import UserDeatls from './../Shared/UserDeatls/UserDeatls';
 import { data, User } from "../../services/UserListInterFaces/InterFace";
 import { toast } from "react-toastify";
 import TableActionBtn from '../Shared/TableActionBtn/TableActionBtn';
+import UserDetails from "../Shared/UserDetails/UserDetails";
 
 export default function UserLIst() {
 
 
 
     const [getUsers, setGetUsers] = useState(null)
-    const [getUsersDeatls, setGetUsersDeatls] = useState(null)
+    const [getUsersDetails, setGetUsersDetails] = useState(null)
     const [getPageNumber, setPageNumber] = useState(1)
     const [Loader, setLoader] = useState(true)
     const [show, setShow] = useState(false);
     const [valueInput, setvalueInput] = useState(null);
     const [searhedData, setsearhedData] = useState(null);
-    const [blockedUser, setBlockedUser] = useState(null)
+    const [blockedUser, setBlockedUser] = useState({})
 
 
     useEffect(() => {
@@ -34,6 +34,8 @@ export default function UserLIst() {
         privateApiInstance.get(users_endpoints.GET_ALL_USERS(pageNum)
         ).then((res) => {
             setGetUsers(res?.data)
+            // console.log(res?.data.data)
+
         }).catch((res) => {
             console.log(res)
 
@@ -48,9 +50,16 @@ export default function UserLIst() {
     function blockUser(id: number) {
         privateApiInstance.put(users_endpoints.UPDATE_USER(id)).then((res) => {
             if (res.status == 200) {
-                setBlockedUser(res.data)
+                setBlockedUser(res?.data)
                 console.log(blockedUser)
-                toast.success("User Blocked !")
+                console.log(res)
+                if (res.data.isActivated) {
+                    toast.success("User Active !")
+
+                } else {
+                    toast.success("User Blocked !")
+
+                }
                 getEmployee(getPageNumber)
 
             }
@@ -69,8 +78,7 @@ export default function UserLIst() {
         getEmployee(getNumberOfPrevPage)
         setPageNumber(getNumberOfPrevPage)
 
-        if (getNumberOfPrevPage == 0
-        ) {
+        if (getNumberOfPrevPage == 0  ||  getPageNumber == searhedData?.totalNumberOfPages   ) {
             getEmployee(getUsers?.totalNumberOfPages)
             setPageNumber(getUsers?.totalNumberOfPages)
 
@@ -79,14 +87,14 @@ export default function UserLIst() {
     function nextPage() {
         let getNumberOfNextPage;
         console.log("S")
-        if (getPageNumber < getUsers.totalNumberOfPages) {
+        if (getPageNumber < getUsers?.totalNumberOfPages || getPageNumber < searhedData?.totalNumberOfPages) {
             getNumberOfNextPage = getPageNumber + 1
             getEmployee(getNumberOfNextPage)
             setPageNumber(getNumberOfNextPage)
             console.log(getNumberOfNextPage)
             console.log("SS")
         }
-        else if (getPageNumber == getUsers.totalNumberOfPages) {
+        else if (getPageNumber == getUsers?.totalNumberOfPages || getPageNumber == searhedData?.totalNumberOfPages) {
             setPageNumber(1)
             getEmployee(1)
             console.log("==")
@@ -98,12 +106,12 @@ export default function UserLIst() {
     const handleShow = () => setShow(true);
 
 
-    function getUserDeatls(id: number): void {
+    function getUserDetails(id: number): void {
         setLoader(true)
         console.log(id)
         privateApiInstance.get(users_endpoints.getUser(id)).then((res) => {
             console.log(res?.data)
-            setGetUsersDeatls(res?.data)
+            setGetUsersDetails(res?.data)
             setLoader(false)
 
 
@@ -115,6 +123,7 @@ export default function UserLIst() {
 
     }
     function getsearchValue(e: any) {
+
         console.log(getPageNumber)
 
         privateApiInstance.get(users_endpoints.getFilterUser(valueInput, e.target.value, getPageNumber)).then((res) => {
@@ -192,7 +201,7 @@ export default function UserLIst() {
                                         </div></div>
                                     </div>
 
-                                    <div className="table-responsive">
+                                    <div className="table-responsive ">
                                         <Table responsive="sm ">
                                             <thead className="position-sticky  top-1">
                                                 <tr className="text-center">
@@ -212,19 +221,19 @@ export default function UserLIst() {
                                                         <td className="p-3">{searh.userName}</td>
                                                         <td className="p-3">
 
-                                                            {searh.isActivated ? <span className={` bg-success rounded-4 p-1  px-3 text-white`}>
+                                                            {searh.isActivated || blockedUser.isActivated ? <span className={` bg-success rounded-4 p-1  px-3 text-white`}>
 
                                                                 Active
                                                             </span> : <span className={` bg-danger rounded-4 p-1  px-3 text-white`}>
 
-                                                                Not Active</span>}
+                                                                NotActive</span>}
                                                         </td>
                                                         <td className="p-3">{searh.phoneNumber}</td>
                                                         <td className="p-3">{searh.email}</td>
                                                         <td className="p-3">{date.format()}</td>
                                                         <td className="p-3">
 
-                                                            <TableActionBtn userId={searh.id} blockUser={() => blockUser(searh.id)} getUserDeatls={getUserDeatls} handleShow={handleShow} />
+                                                            <TableActionBtn userActivty={searh.isActivated} userId={searh.id} blockUser={() => blockUser(searh.id)} getUserDeatls={getUserDetails} blockedUser={blockedUser} handleShow={handleShow} />
                                                         </td></tr>
                                                 })
 
@@ -242,13 +251,13 @@ export default function UserLIst() {
                                                                     Active
                                                                 </span> : <span className={` bg-danger rounded-4 p-1  px-3 text-white`}>
 
-                                                                    Not Active</span>}
+                                                                    NotActive</span>}
                                                             </td>
                                                             <td className="p-3">{user.phoneNumber}</td>
                                                             <td className="p-3">{user.email}</td>
                                                             <td className="p-3">{date.format()}</td>
                                                             <td className="p-3">
-                                                                <TableActionBtn userId={user.id} blockUser={() => blockUser(user.id)} getUserDeatls={getUserDeatls} handleShow={handleShow} />
+                                                                <TableActionBtn userActivty={user.isActivated} blockedUser={blockedUser} userId={user.id} blockUser={() => blockUser(user.id)} getUserDeatls={getUserDetails} handleShow={handleShow} />
                                                             </td></tr>
 
                                                     })}
@@ -256,25 +265,46 @@ export default function UserLIst() {
                                             </>}
 
 
-                                                    
+
 
 
 
                                         </Table>
-                                        <div className="d-flex justify-content-lg-end  align-items-baseline mt-2 py-2 ">   <span >showing </span>
+                                        {/*  userDataPagination  */}
+                                        {searhedData ? <div className="d-flex justify-content-lg-end  align-items-baseline mt-2 py-2 ">   <span >showing </span>
 
 
-                                            <div className=" border  rounded-5 ms-md-2 px-md-3 p-md-1">                                            <span id="dropdown-basic" className="d-inline-flex justify-content-center align-items-center p-2 p-md-0 ">  10 <FontAwesomeIcon icon={faArrowDown} className="ms-1" /> </span>
+                                            <div className=" border  rounded-5 ms-md-2 px-md-3 p-md-1">                                            <span id="dropdown-basic" className="d-inline-flex justify-content-center align-items-center p-2 p-md-0 ">  {searhedData.data.length} <FontAwesomeIcon icon={faArrowDown} className="ms-1" /> </span>
                                             </div>
 
 
 
 
-                                            <span className="mx-2 me-4">of {getUsers?.totalNumberOfRecords} Result</span>
+                                            <span className="mx-2 me-4">of {searhedData?.totalNumberOfRecords} Result</span>
 
-                                            <div className="text-center"> Page {getPageNumber} of {getUsers?.totalNumberOfPages} <FontAwesomeIcon onClick={prevPage} className="cursor-pointer" icon={faArrowLeft} /> <FontAwesomeIcon onClick={nextPage} className="mx-2 cursor-pointer" icon={faArrowRight} />  </div>
-                                        </div>
-                                        
+                                            <div className="text-center"> Page {getPageNumber} of {searhedData?.totalNumberOfPages} <FontAwesomeIcon onClick={prevPage} className="cursor-pointer" icon={faArrowLeft} /> <FontAwesomeIcon onClick={nextPage} className="mx-2 cursor-pointer" icon={faArrowRight} />  </div>
+                                        </div> : <>
+                                            <div className="d-flex justify-content-lg-end  align-items-baseline mt-2 py-2 ">   <span > {searhedData?.data.length} </span>
+
+
+                                                <div className=" border  rounded-5 ms-md-2 px-md-3 p-md-1">                                            <span id="dropdown-basic" className="d-inline-flex justify-content-center align-items-center p-2 p-md-0 ">  10 <FontAwesomeIcon icon={faArrowDown} className="ms-1" /> </span>
+                                                </div>
+
+
+
+
+                                                <span className="mx-2 me-4">of {getUsers?.totalNumberOfRecords} Result</span>
+
+                                                <div className="text-center"> Page {getPageNumber} of {getUsers?.totalNumberOfPages} <FontAwesomeIcon onClick={prevPage} className="cursor-pointer" icon={faArrowLeft} /> <FontAwesomeIcon onClick={nextPage} className="mx-2 cursor-pointer" icon={faArrowRight} />  </div>
+                                            </div>
+                                        </>}
+
+
+
+
+
+
+
                                     </div>
 
                                 </div>
@@ -297,7 +327,7 @@ export default function UserLIst() {
             </div >
 
 
-            {show ? <UserDeatls userDeatls={getUsersDeatls} show={show} handleClose={handleClose} Loader={Loader} />
+            {show ? <UserDetails userDeatls={getUsersDetails} show={show} handleClose={handleClose} Loader={Loader} />
                 : ""
             }
         </>
