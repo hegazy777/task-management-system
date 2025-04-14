@@ -141,7 +141,7 @@ export default function ProjectsList() {
   };
 
   return (
-    <div className={styles.overlayBg}>
+    <div className={styles.overlayBg} style={{width:"100%"}}>
       <Stack
         gap={3}
         direction="horizontal"

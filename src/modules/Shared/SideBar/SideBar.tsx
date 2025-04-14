@@ -34,13 +34,13 @@ export default function SideBar() {
           </Button>
         </div>
         <Menu>
-          <MenuItem component={<Link to="/users" />}>
+          <MenuItem component={<Link to="/dashboard/users" />}>
             <FaUser style={{ marginRight: "10px" }} /> Users
           </MenuItem>
-          <MenuItem component={<Link to="/Project" />}>
+          <MenuItem component={<Link to="/dashboard/projects" />}>
             <FaProjectDiagram style={{ marginRight: "10px" }} /> Projects
           </MenuItem>
-          <MenuItem component={<Link to="new-task" />}>
+          <MenuItem component={<Link to="/dashboard/new-task" />}>
             <FaTasks style={{ marginRight: "10px" }} /> Tasks
           </MenuItem>
           <MenuItem onClick={() => logout()}>

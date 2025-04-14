@@ -88,7 +88,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <div className="p-3">
+      <div className="p-3" style={{width:"100%"}}>
         <div
           className="relative bg-cover bg-center d-flex flex-column justify-content-center px-4 text-white"
           style={{
